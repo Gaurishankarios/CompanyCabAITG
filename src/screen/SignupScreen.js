@@ -6,7 +6,7 @@ import { Context as AuthContext } from '../context/AuthContext'
 
 const SignupScreen = ({ navigation }) => {
     const { state, signup } = useContext(AuthContext);
-    const [email, setEmail] = useState('');
+    const [employeeId, setemployeeId] = useState('');
     const [password, setPassword] = useState('');
 
     console.log(state);
@@ -16,8 +16,8 @@ const SignupScreen = ({ navigation }) => {
                 <Text h3>Sign Up for Ait</Text>
             </Spacer>
             <Spacer>
-                <Input label="Email" value={email}
-                    onChangeText={setEmail}
+                <Input label="Email" value={employeeId}
+                    onChangeText={setemployeeId}
                     autoCapitalize='none'
                     autoCorrect={false}
                     maxLength={15}
@@ -38,7 +38,7 @@ const SignupScreen = ({ navigation }) => {
             {state.errorMessage ? <Text style={styles.errorMessag} > {state.errorMessage} </Text> : null}
 
             <Spacer>
-                <Button title="Sign Up" onPress={() => signup({ email, password })} />
+                <Button title="Sign Up" onPress={() => signup({ employeeId, password })} />
             </Spacer>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
                 <Button title="forget password"

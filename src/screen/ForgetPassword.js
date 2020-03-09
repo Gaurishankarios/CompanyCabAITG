@@ -1,61 +1,88 @@
-import React, {useState} from 'react'
-import {View, StyleSheet, Alert} from 'react-native'
+import React, { useState, useContext } from 'react'
+import { View, StyleSheet, Alert } from 'react-native'
 import { Text, Input, Button } from 'react-native-elements'
 import Spacer from '../components/Spacer'
+import axios from 'axios'
+import { Context as AuthContext } from '../context/AuthContext'
+import { navigate } from '../navigationRef'
 
 
-const ForgetPassword  = ({ navigation }) => {
+const ForgetPassword = ({ navigation }) => {
 
+    const { state, forgot } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     return (
         <View style={styles.container} >
-             <Spacer>
+            <Spacer>
                 <Text h3>Forget password</Text>
             </Spacer>
             <Spacer>
-            <Input label="Email" value={email}
+                <Input label="Email" value={email}
                     onChangeText={setEmail}
                     autoCapitalize='none'
                     autoCorrect={false}
-                    maxLength={15}
+                    maxLength={50}
 
                 />
             </Spacer>
             <Spacer>
-                <Button title="Send OTP on mail" onPress = {() => 
-                Alert.alert(
-                    'Success or error',
-                    'Error message or succes msg',
-                    [
-                      {text: 'Go to SignIn', onPress: () => { navigation.navigate('Signup')}},
-                      {text: 'Go to Reset Password', onPress: () => { navigation.navigate('NewPass') }},
-                      {text: 'Cancle', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},   
-                    ],
-                    { cancelable: false }
-                  ) } />
+                <Button title="Send OTP on mail" onPress={() => this.showalert(email)} />
             </Spacer>
-            <Text style={{color: 'grey', padding: 15}} >Enter official email to receive password reset 4 digit OTP</Text>
+            <Text style={{ color: 'grey', padding: 15 }} >Enter official email to receive password reset 4 digit OTP</Text>
             {/* <Spacer>
                 <Button title="Reset password" onPress={() => navigation.navigate('NewPass')} />
             </Spacer> */}
 
         </View>
     )
-};
-const showalert = () => {
-    // console.log('heyyyyy');
-    Alert.alert(
-        'Success or error',
-        'Error message or succes msg',
-        [
-          {text: 'Go to SignIn', onPress: () => { navigation.navigate('Signup')}},
-          {text: 'Go to Reset Password', onPress: () => { navigation.navigate('NewPass') }},
-          {text: 'Cancle', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},   
-        ],
-        { cancelable: false }
-      )
+
+
 };
 
+ showalert = async (email) => {
+    console.log('heyyyyy');
+    
+
+
+   // console.log("here i am", email);
+    const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    }
+    const param = { email: email }
+    try {
+        const response = await axios.post('http://192.168.1.166:8080/taxicab/login/forgot', 
+        param,
+         headers)
+         let tmpstatus = response.data.status;
+         
+        console.log(response.data);
+        if(tmpstatus == true){
+            Alert.alert(
+                    'Mailed successfully',
+                    'Check your mail',
+                    [
+                      {text: 'Reset Password', onPress: () => { navigate('NewPass') }},
+                      {text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},   
+                    ],
+                    { cancelable: false }
+                  )
+        }else{
+            Alert.alert(
+                'Failure',
+                'Email doesn\'t exist' ,
+                [
+                  {text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},   
+                ],
+                { cancelable: false }
+              )
+        }
+        console.log('i am here....');
+    }catch (err) {
+        console.log("error is ....", err)
+
+    }
+};
 
 const styles = StyleSheet.create({
     container: {

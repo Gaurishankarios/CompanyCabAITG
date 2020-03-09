@@ -11,6 +11,11 @@ import ProfilePage from './src/screen/ProfilePage'
 import { Provider as AuthProvider } from './src/context/AuthContext'
 import SetNewPass from './src/screen/SetNewPass'
 import {setNavigator} from './src/navigationRef'
+import RollScreen from './src/screen/RollScreen'
+import DriverDetail from './src/screen/DriverDetail'
+import ListofPD from './src/screen/ListofPD'
+import PickupDetail from './src/screen/PickupDetail'
+import DateCheck from './src/screen/DateCheck'
 
 
 const switchNavigator = createSwitchNavigator({
@@ -19,12 +24,17 @@ const switchNavigator = createSwitchNavigator({
     Signin: SigninScreen,
     Forget: ForgetPassword,
     NewPass: SetNewPass,
+    
 
   }),
   mainFlow: createBottomTabNavigator({
-    //   trackListFlow: createStackNavigator({
-
-    //   }),
+      trackListFlow: createStackNavigator({
+        Role: RollScreen,
+        Ddetail: DriverDetail,
+        Pdlist: ListofPD,
+        Detail: PickupDetail,
+        Date: DateCheck,
+      }),
 
     Home: HomePage,
     Profile: ProfilePage,
