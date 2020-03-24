@@ -18,6 +18,8 @@
     "react-native": "^0.61.5",
     "react-native-calendar-picker": "^6.0.5",
     "react-native-cardview": "^2.0.5",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-dialog-input": "^1.0.7",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-modal-datetime-picker": "^8.5.1",

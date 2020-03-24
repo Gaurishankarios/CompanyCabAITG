@@ -16,6 +16,7 @@ import DriverDetail from './src/screen/DriverDetail'
 import ListofPD from './src/screen/ListofPD'
 import PickupDetail from './src/screen/PickupDetail'
 import DateCheck from './src/screen/DateCheck'
+import CanclePickUP from './src/screen/CanclePickUP'
 
 
 const switchNavigator = createSwitchNavigator({
@@ -24,6 +25,7 @@ const switchNavigator = createSwitchNavigator({
     Signin: SigninScreen,
     Forget: ForgetPassword,
     NewPass: SetNewPass,
+    
     
 
   }),
@@ -34,6 +36,7 @@ const switchNavigator = createSwitchNavigator({
         Pdlist: ListofPD,
         Detail: PickupDetail,
         Date: DateCheck,
+        PCancle: CanclePickUP,
       }),
 
     Home: HomePage,

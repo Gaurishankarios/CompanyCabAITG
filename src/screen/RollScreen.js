@@ -1,38 +1,39 @@
 import React from 'react'
-import {View, StyleSheet, Text, ScrollView, TouchableOpacity} from 'react-native'
+import { View, StyleSheet, Text, ScrollView, TouchableOpacity } from 'react-native'
 import Spacer from '../components/Spacer'
 import { Button } from 'react-native-elements';
 import CardView from 'react-native-cardview'
 import { navigate } from '../navigationRef'
 
-const RollScreen  = ({navigation}) => {
+const RollScreen = ({ navigation }) => {
     return (
-        
+
         <View style={styles.mainviewstyle}>
-        <View style={styles.viewstyle} >
-            <CardView
-                cardElevation={5}
-                cardMaxElevation={5}
-                cornerRadius={10} style={styles.pagestyle}>
+            <View style={styles.viewstyle} >
+                <CardView
+                    cardElevation={5}
+                    cardMaxElevation={5}
+                    cornerRadius={10} style={styles.pagestyle}>
 
-                <Text style={styles.textstyle}> Employee </Text>
+                    <Text style={styles.textstyle}> Employee </Text>
 
-            </CardView>
+                </CardView>
 
-            <TouchableOpacity style={styles.touchView} onPress = {()=> { navigate('Pdlist')}} >
-            <CardView
-                cardElevation={5}
-                cardMaxElevation={5}
-                cornerRadius={10} >
+                <TouchableOpacity style={styles.touchView} onPress={() => { navigate('Pdlist') }} >
+                    <CardView
+                        cardElevation={5}
+                        cardMaxElevation={5}
+                        cornerRadius={10} >
+                        
+                            <Text style={styles.textstyle}> Driver </Text>
 
-                <Text style={styles.textstyle}> Driver </Text>
 
-            </CardView>
-            </TouchableOpacity>
+                    </CardView>
+                </TouchableOpacity>
 
+            </View>
         </View>
-    </View>
-        
+
     )
 };
 
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         margin: 20,
         marginTop: 30,
-        backgroundColor: 'blue',
+        backgroundColor: 'white',
         maxWidth: '40%',
         height: 100,
     },
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         margin: 20,
         marginTop: 30,
-        backgroundColor: 'blue',
+        backgroundColor: 'white',
         maxWidth: '40%',
         height: 100,
     },
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     },
     mainviewstyle: {
         flexDirection: 'column',
-        marginTop: 10,    
+        marginTop: 10,
 
     },
     // cardstyle: {
@@ -77,11 +78,14 @@ const styles = StyleSheet.create({
     //     shadowOpacity: 0.5,
     //     borderRadius: 10,
     // },
-    textstyle:{
+    textstyle: {
         textAlign: 'center',
-         color: 'white',
-          fontSize: 18,
-           fontWeight: 'bold' 
+        color: 'black',
+        fontSize: 18,
+        fontWeight: 'bold',
+        backgroundColor: 'rgba(52, 52, 52, 0)',
+        borderColor: 'rgba(52, 52, 52, 0)',
+    
     }
 });
 

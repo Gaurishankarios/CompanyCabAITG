@@ -13,10 +13,10 @@ const SignupScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Spacer>
-                <Text h3>Sign Up for Ait</Text>
+                <Text h3>SignIn for Ait</Text>
             </Spacer>
             <Spacer>
-                <Input label="Email" value={employeeId}
+                <Input label="EmployeeID" value={employeeId}
                     onChangeText={setemployeeId}
                     autoCapitalize='none'
                     autoCorrect={false}

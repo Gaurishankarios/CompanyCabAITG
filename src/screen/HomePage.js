@@ -21,7 +21,7 @@ const HomePage = ({navigation}) => {
                     <Text style={styles.textstyle}> Attendence </Text>
                     
                 </CardView>
-                <TouchableOpacity style={styles.touchView} onPress = {()=> { navigate('Role')}} >
+                <TouchableOpacity style={styles.touchView} onPress = {()=> { navigate('Date')}} >
                     <CardView 
                         // pointerEvents="none"
                         cardElevation={5}
