@@ -3,9 +3,10 @@ import { Dropdown } from 'react-native-material-dropdown';
 import { View, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import { set } from 'react-native-reanimated';
+import { navigate } from '../navigationRef'
 
 
-class CanclePickUp extends Component {
+class ReachLate extends Component {
     constructor(props) {
         //constructor to set default state  
         super(props);
@@ -21,23 +22,30 @@ class CanclePickUp extends Component {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const parameter = { empAssignedId: this.state.dataparam[0], rideDate: this.state.dataparam[1], driverAssignedId: "ait306", incidenceValue: "Hello4" }
         console.log("in call", value, this.state.dataparam);
-        // let tmp = this.state.dataparam;
-        parameter.incidenceValue = value;
-        console.log("changed value is param", parameter.incidenceValue)
+        let tmp = this.state.dataparam;
+        tmp.incidenceValue = value;
+        console.log("changed value is", tmp.incidenceValue)
 
         
-        const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/cancel',
-                parameter,
+        const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/reach',
+                tmp,
                 headers)
 
             let coderespo = response.data.status;
             console.log(coderespo);
 
             if (coderespo == true) {
-                alert("Cancle ride with reason");
-                //  navigation.pop() 
+                this.props.navigation.pop()
+                // Alert.alert(
+                //     'Reached',
+                //     'Reached at location with insidence',
+                //     [
+                //         { text: 'Ok', onPress: () => {this.props.navigation.pop()} },
+                //     ],
+                //     { cancelable: true }
+                // )
+               
             } else {
                 alert("Fail");
             }
@@ -70,7 +78,9 @@ class CanclePickUp extends Component {
         this.setState({ dataparam: dataparam1 });
     };
 
-   
+    // shouldComponentUpdate() {
+    //     return false
+    //   }
 
 
 
@@ -78,9 +88,10 @@ class CanclePickUp extends Component {
         const { navigate } = this.props.navigation;
 
         let dataparam = this.props.navigation.state.params;
-        console.log("dataparam from previous", this.props.navigation.state.params[0]);
+        console.log("dataparam from previous", this.props.navigation.state.params);
 
-        
+        // this.setState({ dataparam });
+        // this.finalcallreach(this.props.navigation.params);
 
         return (
             <View style={styles.container}>
@@ -108,4 +119,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CanclePickUp;
+export default ReachLate;

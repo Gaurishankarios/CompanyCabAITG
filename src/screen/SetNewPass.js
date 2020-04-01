@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Alert } from 'react-native'
+import { View, StyleSheet, Alert,Image } from 'react-native'
 import { Text, Input, Button } from 'react-native-elements'
 import Spacer from '../components/Spacer'
 import axios from 'axios'
@@ -14,8 +14,18 @@ const SetNewPass = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+
+<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Image 
+                        resizeMode="contain"
+                        source={require('../assets/newpass.png')}
+                        style={{ width: 80, height: 80 }}
+                    />
+                </View>
             <Spacer>
-                <Text h3>Reset password</Text>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Text h4 h4Style={styles.setColorBlue}>Reset Password</Text>
+                </View>
             </Spacer>
             <Spacer>
                 <Input label="Employee ID" value={empId}
@@ -49,7 +59,7 @@ const SetNewPass = ({ navigation }) => {
                 />
             </Spacer>
             <Spacer>
-                <Button title="Reset password"
+                <Button title="Reset Password" buttonStyle={{ backgroundColor: '#03106E',padding:15}}
                     on onPress={() => this.servercall(empId, oneTime, newpass)
                     }
                 />
@@ -69,7 +79,7 @@ servercall = async (empId, oneTime, newpass) => {
     const param = { employeeId: empId, passkey: oneTime, newPasskey: newpass }
     console.log(param);
     try {
-        const response = await axios.post('http://192.168.1.166:8080/taxicab/login/reset',
+        const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/login/reset',
             param,
             headers)
         let tmpstatus = response.data.status;
@@ -105,7 +115,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         // marginBottom: 100,
-    },
+    },setColorBlue :{
+        color: '#03106E'
+      }
 
 });
 

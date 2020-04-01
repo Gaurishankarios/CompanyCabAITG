@@ -1,54 +1,78 @@
-import React, { useState, useContext } from 'react'
-import { View, StyleSheet } from 'react-native'
+import React, { useState, useContext, Component } from 'react'
+import { View, StyleSheet, ImageBackground, Image } from 'react-native'
+import NetInfo from "@react-native-community/netinfo";
 import { Text, Input, Button } from 'react-native-elements'
 import Spacer from '../components/Spacer'
 import { Context as AuthContext } from '../context/AuthContext'
+import { AsyncStorage } from 'react-native'
 
+let check = 2;
 const SignupScreen = ({ navigation }) => {
+
     const { state, signup } = useContext(AuthContext);
     const [employeeId, setemployeeId] = useState('');
     const [password, setPassword] = useState('');
 
     console.log(state);
+    // async () => {
+    //     await AsyncStorage.getItem('token')
+    //     console.log("token check: ", AsyncStorage.getItem('token'))
+    // }
+
     return (
-        <View style={styles.container}>
-            <Spacer>
-                <Text h3>SignIn for Ait</Text>
-            </Spacer>
-            <Spacer>
-                <Input label="EmployeeID" value={employeeId}
-                    onChangeText={setemployeeId}
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                    maxLength={15}
+        <ImageBackground source={require('../assets/backimg.jpg')}
+            style={styles.backgroundImage}>
+            <View style={styles.container}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Image
+                        source={require('../assets/logoait.png')}
+                        style={{ width: 100, height: 100 }}
+                    />
+                </View>
 
-                />
-            </Spacer>
-            <Spacer>
-                <Input
-                    secureTextEntry
-                    label="Password" value={password}
-                    onChangeText={setPassword}
-                    autoCapitalize='none'
-                    autoCorrect={false}
-                    maxLength={8}
+                <Spacer>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
 
-                />
-            </Spacer>
-            {state.errorMessage ? <Text style={styles.errorMessag} > {state.errorMessage} </Text> : null}
+                    <Text h4
+                        h4Style={{ color: 'white' }}>Sign-in for AIT Portal</Text>
+                        </View>
+                </Spacer>
+                <Spacer>
+                    <Input label="Employee ID" value={employeeId}
+                        onChangeText={setemployeeId}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        maxLength={15}
 
-            <Spacer>
-                <Button title="Sign Up" onPress={() => signup({ employeeId, password })} />
-            </Spacer>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
-                <Button title="forget password"
-                    on onPress={() => { navigation.navigate('Forget') }
-                    }
-                />
-                <Button title="Set New Password"
-                onPress={() => {navigation.navigate('NewPass')} } />
+                    />
+                </Spacer>
+                <Spacer>
+                    <Input
+                        secureTextEntry
+                        label="Password" value={password}
+                        onChangeText={setPassword}
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        maxLength={8}
+
+                    />
+                </Spacer>
+                {state.errorMessage ? <Text style={styles.errorMessag} > {state.errorMessage} </Text> : null}
+
+                <Spacer>
+                    <Button title="Sign-in" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }}
+                        onPress={() => signup({ employeeId, password })} />
+                </Spacer>
+                <Spacer>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
+                        <Text style={styles.TextStyle} onPress={() => { navigation.navigate('Forget') }}> Forget Password</Text>
+
+                        <Text style={styles.TextStyle} onPress={() => { navigation.navigate('NewPass') }}> Set New Password</Text>
+                    </View>
+                </Spacer>
+
             </View>
-        </View>
+        </ImageBackground>
 
     )
 };
@@ -68,6 +92,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // marginBottom: 100,
     },
+    backgroundImage: {
+        flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'cover'
+    },
     errorMessag: {
         fontSize: 16,
         color: 'red',
@@ -77,7 +107,14 @@ const styles = StyleSheet.create({
     forget: {
         // flex
         justifyContent: 'space-around'
+    },
+    TextStyle: {
+
+        color: '#E91E63',
+        textDecorationLine: 'underline'
+
     }
 });
+
 export default SignupScreen;
 

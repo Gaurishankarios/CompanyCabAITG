@@ -97,6 +97,30 @@ const ListofPD = ({ navigation }) => {
         setempID(empID => eid);
         console.log(eid);
     }
+
+    const dropEmp = async (emid) => {
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+        const param = { empAssignedId: emid, rideDate: count, driverAssignedId: "ait306" }
+
+        const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/dropreach',
+            param,
+            headers)
+
+        let coderespo = response.data.status;
+        console.log(coderespo);
+
+        if (coderespo == true) {
+            alert("Reached at location");
+        } else {
+            alert("Fail");
+        }
+
+    }
+
     const reachEmpLoc = async (eid, ptime) => {
         console.log(eid);
 
@@ -117,23 +141,24 @@ const ListofPD = ({ navigation }) => {
         if (ptime < ctime) {
             console.log("ctime time is large");
             // setinsidnt(insidnt => response.data)
-            // console.log(insidnt);
-            const AsyncAlert = async () => new Promise((resolve) => {
-                Alert.alert(
-                    '',
-                    'Select reason',
-                    [
-                        { text: insidnt.incidenceList[0].title, onPress: () => alertRitch(param,1, headers)},
-                        { text: insidnt.incidenceList[1].title, onPress: () => alertRitch(param,2, headers) },
-                        { text: insidnt.incidenceList[2].title, onPress: () => alertRitch(param,3, headers) },
-                        { text: insidnt.incidenceList[3].title, onPress: () => alertRitch(param,4, headers) },
-                        { text: insidnt.incidenceList[4].title, onPress: () => alertRitch(param,5, headers) },
-                    ],
-                    { cancelable: false }
-                )
-            });
-            await AsyncAlert();
+
+            // const AsyncAlert = async () => new Promise((resolve) => {
+            //     Alert.alert(
+            //         '',
+            //         'Select reason',
+            //         [
+            //             { text: insidnt.incidenceList[0].title, onPress: () => alertRitch(param,1, headers)},
+            //             { text: insidnt.incidenceList[1].title, onPress: () => alertRitch(param,2, headers) },
+            //             { text: insidnt.incidenceList[2].title, onPress: () => alertRitch(param,3, headers) },
+            //             { text: insidnt.incidenceList[3].title, onPress: () => alertRitch(param,4, headers) },
+            //             { text: insidnt.incidenceList[4].title, onPress: () => alertRitch(param,5, headers) },
+            //         ],
+            //         { cancelable: false }
+            //     )
+            // });
+            // await AsyncAlert();
             console.log(param);
+            navigate('LReach', param);
         }
         else {
             console.log("picktime time is large");
@@ -153,25 +178,25 @@ const ListofPD = ({ navigation }) => {
     }
 
 
-    const alertRitch = async(param, insidentno, headers) => {
+    const alertRitch = async (param, insidentno, headers) => {
         // console.log(param.incidenceId);
         param.incidenceId = insidentno;
         console.log(param.incidenceId);
 
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/reach',
-                param,
-                headers)
+            param,
+            headers)
 
-            let coderespo = response.data.status;
-            console.log(coderespo);
+        let coderespo = response.data.status;
+        console.log(coderespo);
 
-            if (coderespo == true) {
-                alert("Reached at location");
-            } else {
-                alert("Fail");
-            }
+        if (coderespo == true) {
+            alert("Reached at location");
+        } else {
+            alert("Fail");
         }
-    
+    }
+
 
     const pinconformPickup = async (pin, id) => {
         setisDialogVisible(false)
@@ -223,21 +248,13 @@ const ListofPD = ({ navigation }) => {
     }
 
 
-    // console.log(tmpstatus);
     if (callcount == 1) {
         return (
             <View>
                 {/* <Text>{currentDate}</Text> */}
-                <View style={{ flexDirection: 'row', marginLeft: 10, marginEnd: 10, minwidth: '90%' }} >
-                    {/* <Input value={currentDate}
-                // onChangeText={seteditDate}
-                autoCapitalize='none'
-                autoCorrect={false}
-                keyboardAppearance={false}
-                maxLength={80}
-                onTouchStart={showDatePicker}
-            /> */}
-                    <Button title={count} onPress={showDatePicker} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', minwidth: '90%', }} >
+
+                    <Button title={count} buttonStyle={{ backgroundColor: '#03106E', padding: 10, width: 200 }} onPress={showDatePicker} />
                     <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -256,49 +273,60 @@ const ListofPD = ({ navigation }) => {
                     </View>
                 </View>
 
-                <View>
+                <View style={{
+                    backgroundColor: '#6A7FB4', alignItems: 'center',
+                    justifyContent: "center"
+                }}>
+                    <Text style={{
+                        fontSize: 18,
+                        textAlign: 'center',
+                        color: 'white',
+                    }}>  {driven}  </Text>
+                </View>
+                {/* <View>
 
                     <Text style={{
-                        backgroundColor: 'red', alignItems: 'center',
+                        backgroundColor: '#6A7FB4', alignItems: 'center',
                         fontSize: 19, justifyContent: "center"
                     }}>  {driven}  </Text>
-                    {/* <Text style={{
-                        backgroundColor: 'red', alignItems: 'center',
-                        fontSize: 18, justifyContent: "center"
-                    }}>  Ride start time  </Text> */}
 
-                </View>
+                </View> */}
 
                 <FlatList style={{ marginBottom: 120 }}
                     data={listn}
-                    // console.log(data);
                     renderItem={({ item }) => {
                         return (
                             <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
                                 <View>
-                                    <Text style={styles.textnamestyle}> {item.empAssignedName} - {item.pickLocationName}</Text>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Text style={styles.textnamestyle}> {item.empAssignedName} </Text>
+                                        <Text style={styles.textnamestyle}>Pick Time</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                                        <Text style={styles.textnamestyle1}> {item.pickLocationName} </Text>
+                                        <Text style={styles.textnamestyle1}>{item.pickTime}</Text>
+                                    </View>
+
+                                    {/* - {item.pickLocationName} */}
+
+
+                                    {/* <Text style={{ padding: 5 }}> Pick Time:-{item.pickTime}  </Text> */}
+
                                     <View style={styles.btnStyle}>
                                         <View style={styles.buttonContainer}>
+                                            <View style={{ marginRight: 10 }}>
+                                                <Button title='Reach' onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime)} />
+                                            </View>
                                             <View style={{ marginRight: 10 }}>
                                                 <Button title='Call' onPress={() => dialCall(item.mobileNumber)} />
                                             </View>
-
-                                            <Button title='Reach' onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime)} />
-                                        </View>
-                                    </View>
-
-                                    <Text> Pick Time:-{item.pickTime} - Mobile- {item.mobileNumber} </Text>
-
-                                    <View style={styles.btnStyle}>
-                                        <View style={styles.buttonContainer}>
                                             <View style={{ marginRight: 10 }}>
-                                                <Button title='Cancle' onPress={
-                                                    () => { navigate('PCancle', insidnt) }
+                                                <Button title='Cancel' onPress={
+                                                    () => { navigate('PCancle', [item.empAssignedId, count]) }
                                                 } />
                                             </View>
                                             <Button title='Pick-up' onPress={() => empPickupPress(item.empAssignedId)} />
                                             <DialogInput isDialogVisible={isDialogVisible}
-                                                // title={"Verify code"}
                                                 title={empID}
                                                 message={"Verify code for employee"}
                                                 hintInput={" INPUT"}
@@ -319,9 +347,9 @@ const ListofPD = ({ navigation }) => {
         return (
             <View>
                 {/* <Text>{currentDate}</Text> */}
-                <View style={{ flexDirection: 'row', marginLeft: 10, marginEnd: 10, minwidth: '90%' }} >
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', minwidth: '90%', }} >
 
-                    <Button title={count} onPress={showDatePicker} />
+                    <Button title={count} buttonStyle={{ backgroundColor: '#03106E', padding: 10, width: 200 }} onPress={showDatePicker} />
                     <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -330,8 +358,6 @@ const ListofPD = ({ navigation }) => {
 
                     />
                 </View>
-
-
 
                 <View style={styles.btnView}>
                     <View style={styles.btnstylebtn}>
@@ -342,28 +368,36 @@ const ListofPD = ({ navigation }) => {
                     </View>
                 </View>
 
-                <View>
+                <View style={{
+                    backgroundColor: '#6A7FB4', alignItems: 'center',
+                    justifyContent: "center"
+                }}>
                     <Text style={{
-                        backgroundColor: 'red', alignItems: 'center',
-                        fontSize: 19, justifyContent: "center"
+                        fontSize: 18,
+                        textAlign: 'center',
+                        color: 'white',
                     }}>  {driven}  </Text>
                 </View>
 
 
                 <FlatList style={{ marginBottom: 120 }}
                     data={listn}
-                    // console.log(data);
                     renderItem={({ item }) => {
                         return (
                             <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
-                                <View>
-                                    <Text style={styles.textnamestyle}> {item.empAssignedName} - {item.dropLocationName}</Text>
+                                <View >
+                                    {/* <Text style={styles.textnamestyle}> {item.empAssignedName} - {item.dropLocationName}</Text> */}
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Text style={styles.textnamestyle}> {item.empAssignedName} </Text>
+                                        <Text style={styles.textnamestyle}>{item.dropLocationName}</Text>
+                                    </View>
                                     <View style={styles.btnStyle}>
-                                        <View style={styles.buttonContainer}>
-                                            <View style={{ marginRight: 10 }}>
+                                        <View style={styles.buttonContainerDrop}>
+                                            <Text style={styles.textnamestyle1}>{item.dropTime}</Text>
+                                            <View style={{ marginRight: 10, marginLeft: 20 }}>
                                                 <Button title='Call' onPress={() => dialCall(item.mobileNumber)} />
                                             </View>
-                                            <Button title='Drop' />
+                                            <Button title='Drop' onPress={() => dropEmp(item.empAssignedId)} />
                                         </View>
                                     </View>
 
@@ -371,16 +405,25 @@ const ListofPD = ({ navigation }) => {
                             </TouchableOpacity>
                         )
                     }} />
-
-
-
             </View>
         )
     }
+
+};
+// ListofPD.navigationOptions = ({navigation}) => {
+//     return {
+//         headerRight: <Button title={"abc"} onPress={showDatePicker} />
+//     };
+// };
+ListofPD.navigationOptions = {
+    title: null,
+    // headerTransparent: true,
+    // headerStyle: { borderBottomWidth: 2, } 
 };
 
+
+
 RestCall = async (setlistn, cdate, setdriven, setinsidnt) => {
-    //alert('giiii');
     console.log('date is here ... ', cdate);
     if (callcount == 1) {
         console.log('token is ', await AsyncStorage.getItem('token'));
@@ -431,6 +474,7 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt) => {
         tmpDrive = response.data.vehicleDetails[0].vehicleNumber;
         tmpDrive += "\n Vehicle location-"
         tmpDrive += response.data.vehicleDetails[0].vehicleAddress;
+        setdriven(driven => tmpDrive);
     }
 }
 
@@ -459,7 +503,8 @@ const styles = StyleSheet.create({
     touchView: {
         margin: 10,
         marginTop: 10,
-        backgroundColor: 'lightgrey',
+        padding: 10,
+        backgroundColor: 'white',
         // height: 130,
         minHeight: 70,
         maxHeight: 150,
@@ -471,21 +516,37 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
-        margin: 10,
+        // margin: 10,
         marginTop: 20,
         marginBottom: 20,
 
     },
     buttonContainer: {
         flex: 1,
-        height: 35,
-        margin: 10,
+        height: 40,
+        // margin: 10,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        // marginRight: 10
+    },
+    buttonContainerDrop: {
+        flex: 1,
+        height: 40,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'flex-end',
         // marginRight: 10
     },
     textnamestyle: {
-        fontSize: 18
+        fontSize: 16,
+        color: '#03106E',
+        padding: 2,
+    },
+    textnamestyle1: {
+        fontSize: 13,
+        color: '#FF8001',
+        padding: 2,
+        alignItems: 'flex-end'
     },
     container: {
         flex: 1,

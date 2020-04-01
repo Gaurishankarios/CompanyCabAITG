@@ -17,6 +17,7 @@ import ListofPD from './src/screen/ListofPD'
 import PickupDetail from './src/screen/PickupDetail'
 import DateCheck from './src/screen/DateCheck'
 import CanclePickUP from './src/screen/CanclePickUP'
+import ReachLate from './src/screen/ReachLate'
 
 
 const switchNavigator = createSwitchNavigator({
@@ -37,6 +38,7 @@ const switchNavigator = createSwitchNavigator({
         Detail: PickupDetail,
         Date: DateCheck,
         PCancle: CanclePickUP,
+        LReach: ReachLate,
       }),
 
     Home: HomePage,

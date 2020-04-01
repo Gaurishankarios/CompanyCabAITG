@@ -3,6 +3,7 @@ import createDataContext from './createDataContext'
 import aitan from '../api/aitan'
 import { navigate } from '../navigationRef'
 import axios from 'axios'
+import NetInfo from "@react-native-community/netinfo";
 // import console = require('console');
 
 const authReducer = (state, action) => {
@@ -19,6 +20,15 @@ const authReducer = (state, action) => {
 };
 
 const signup = (dispatch) => {
+ 
+    const unsubscribe = NetInfo.addEventListener(state => {
+        console.log("Connection type", state.type);
+        console.log("Is connected?", state.isConnected);
+        if(state.isConnected==false){
+                    alert("Check your internet connection");
+                }
+      });
+
     return async ({ employeeId, password }) => {
         // make api req to signup with email & pass
         console.log("here i am", employeeId);
@@ -29,7 +39,7 @@ const signup = (dispatch) => {
         console.log(param)
 
         try {
-            const response = await aitan.post('/validate',param,
+            const response = await aitan.post('login/validate',param,
             {
                 headers: {
                     'content-type': 'application/json',
@@ -39,17 +49,25 @@ const signup = (dispatch) => {
         // const response = await axios.post('http://192.168.1.185:8080/taxicab/login/validate', param, headers)
             console.log(response.data);
             console.log(response.data.status)
-            await AsyncStorage.setItem('token', employeeId);
+           
             // await AsyncStorage.getItem('token');
             // console.log('data is', await AsyncStorage.getItem('token'))
             // dispatch({ type: 'signup', payload: response.data.token });
+            if(response.data.status == true){
+                await AsyncStorage.setItem('token', employeeId);
+                navigate('Home');
+            }else{
+                alert('Something went wrong with signIn');
+                dispatch({ type: 'add_error', payload: 'Something went wrong with signUp' });
+            }
 
             //navigate to main flow
-            navigate('Home');
+            
         } catch (err) {
             console.log('errror here...............',err)
             dispatch({ type: 'add_error', payload: 'Something went wrong with signUp' });
-            navigate('mainFlow')
+            // navigate('mainFlow')
+            alert('error');
         }
     };
 };

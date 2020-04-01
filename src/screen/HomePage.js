@@ -1,59 +1,83 @@
-import React from 'react'
-import { View, StyleSheet, Text, ScrollView, TouchableOpacity } from 'react-native'
+import React, {Component} from 'react'
+import { View, StyleSheet, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
 import Spacer from '../components/Spacer'
 import { Button, Card } from 'react-native-elements';
 import CardView from 'react-native-cardview'
 import { color } from 'react-native-reanimated';
 import { navigate } from '../navigationRef'
+import { CardViewWithIcon, CardViewWithImage } from "react-native-simple-card-view";
 
 
 
-const HomePage = ({navigation}) => {
+const HomePage = ({ navigation }) => {
+    const miniCardStyle = {
+        shadowColor: '#000000',
+        shadowOffsetWidth: 5,
+        shadowOffsetHeight: 5,
+        shadowOpacity: 0.1,
+        hadowRadius: 10,
+        bgColor: '#ffffff',
+        padding: 10,
+        margin: 10,
+        borderRadius: 3,
+        elevation: 5,
+        width: (Dimensions.get("window").width / 2) - 20
+    };
     return (
 
 
-        <View style={styles.mainviewstyle}>
-            <View style={styles.viewstyle} >
-                <CardView
-                    cardElevation={5}
-                    cardMaxElevation={5}
-                    cornerRadius={10} style={styles.pagestyle}>
-                    <Text style={styles.textstyle}> Attendence </Text>
-                    
-                </CardView>
-                <TouchableOpacity style={styles.touchView} onPress = {()=> { navigate('Date')}} >
-                    <CardView 
-                        // pointerEvents="none"
-                        cardElevation={5}
-                        cardMaxElevation={5}
-                        cornerRadius={10} 
-                        onPress = {()=> {console.log('worked')}}>
-                        <Text style={styles.textstyle}> Transport </Text>
-                        
+        <View style={styles.container}>
+            <View style={{ alignItems: "center", flexDirection: "row", flexWrap: 'wrap', }}>
+                <CardViewWithImage
+                    // width={(200}
+                    source={require('../assets/fingerprint.png')}
+                    // content={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut distinctio!'}
+                    title={'Attendence'}
+                    // imageWidth={80}
+                    // imageHeight={100}
+                    roundedImage={false}
+                    style={miniCardStyle}
+                    width={(Dimensions.get("window").width / 2) - 20}
+                    // onPress={() => { navigate('Pdlist') }}
+                />
 
-                    </CardView>
-                </TouchableOpacity>
+                <CardViewWithImage
+                    // width={(200}
+                    source={require('../assets/transfort.png')}
+                    // content={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut distinctio!'}
+                    title={'Transport'}
+                    // imageWidth={100}
+                    // imageHeight={100}
+                    roundedImage={false}
+                    style={miniCardStyle}
+                    width={(Dimensions.get("window").width / 2) - 20}
+                    onPress={() => { navigate('Role') }}
+                />
+                <CardViewWithImage
+                    // width={(200}
+                    source={require('../assets/class.png')}
+                    // content={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut distinctio!'}
+                    title={'T&D'}
+                    // imageWidth={80}
+                    // imageHeight={100}
+                    roundedImage={false}
+                    style={miniCardStyle}
+                    width={(Dimensions.get("window").width / 2) - 20}
+                    // onPress={() => { navigate('Pdlist') }}
+                />
 
-
-            </View>
-            <View style={styles.viewstyle} >
-                <CardView
-                    cardElevation={5}
-                    cardMaxElevation={5}
-                    cornerRadius={10} style={styles.pagestyle}>
-
-                    <Text style={styles.textstyle}> T&D </Text>
-
-                </CardView>
-                <CardView
-                    cardElevation={5}
-                    cardMaxElevation={5}
-                    cornerRadius={10} style={styles.pagestyle}>
-
-                    <Text style={styles.textstyle}> Voting </Text>
-
-                </CardView>
-
+                <CardViewWithImage
+                    // width={(200}
+                    source={require('../assets/voting.png')}
+                    // content={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut distinctio!'}
+                    title={'Voting'}
+                    // imageWidth={80}
+                    // imageHeight={100}
+                    roundedImage={false}
+                    style={miniCardStyle}
+                    width={(Dimensions.get("window").width / 2) - 20}
+                    // onPress={() => { navigate('Pdlist') }}
+                />
             </View>
         </View>
 
@@ -92,7 +116,7 @@ const styles = StyleSheet.create({
     mainviewstyle: {
         flexDirection: 'column',
         marginTop: 0,
-        // backgroundColor: '' 
+        // backgroundColor: ''
 
 
     },
@@ -110,7 +134,13 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         fontWeight: 'bold'
-    }
+    },
+    container: {
+        flex: 2,
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+        paddingTop: 30,
+    },
 });
 
 export default HomePage;
