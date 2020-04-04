@@ -43,7 +43,7 @@ const HomePage = ({ navigation }) => {
 
                 <CardViewWithImage
                     // width={(200}
-                    source={require('../assets/transfort.png')}
+                    source={require('../assets/car.png')}
                     // content={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut distinctio!'}
                     title={'Transport'}
                     // imageWidth={100}
@@ -55,7 +55,7 @@ const HomePage = ({ navigation }) => {
                 />
                 <CardViewWithImage
                     // width={(200}
-                    source={require('../assets/class.png')}
+                    source={require('../assets/training.png')}
                     // content={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut distinctio!'}
                     title={'T&D'}
                     // imageWidth={80}

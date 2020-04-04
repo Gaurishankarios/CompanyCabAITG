@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, StyleSheet, ScrollView, FlatList, TouchableOpacity,Button } from 'react-native'
+import { View, StyleSheet, ScrollView, FlatList, TouchableOpacity, } from 'react-native'
 import Spacer from '../components/Spacer'
-import { Text, Input } from 'react-native-elements'
+import { Text, Input,Button } from 'react-native-elements'
 import { navigate } from '../navigationRef'
 
 const PickupDetail = () => {

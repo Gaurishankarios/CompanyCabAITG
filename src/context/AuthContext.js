@@ -22,8 +22,8 @@ const authReducer = (state, action) => {
 const signup = (dispatch) => {
  
     const unsubscribe = NetInfo.addEventListener(state => {
-        console.log("Connection type", state.type);
-        console.log("Is connected?", state.isConnected);
+        // console.log("Connection type", state.type);
+        // console.log("Is connected?", state.isConnected);
         if(state.isConnected==false){
                     alert("Check your internet connection");
                 }

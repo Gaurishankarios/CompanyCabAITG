@@ -6,6 +6,7 @@ import Spacer from '../components/Spacer'
 import { Context as AuthContext } from '../context/AuthContext'
 import { AsyncStorage } from 'react-native'
 
+
 let check = 2;
 const SignupScreen = ({ navigation }) => {
 
@@ -20,7 +21,7 @@ const SignupScreen = ({ navigation }) => {
     // }
 
     return (
-        <ImageBackground source={require('../assets/backimg.jpg')}
+        <ImageBackground source={require('../assets/backimg.png')}
             style={styles.backgroundImage}>
             <View style={styles.container}>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -31,23 +32,25 @@ const SignupScreen = ({ navigation }) => {
                 </View>
 
                 <Spacer>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
 
-                    <Text h4
-                        h4Style={{ color: 'white' }}>Sign-in for AIT Portal</Text>
-                        </View>
+                        <Text h4
+                            h4Style={{ color: 'white' }}>Sign-in for AIT Portal</Text>
+                    </View>
                 </Spacer>
                 <Spacer>
-                    <Input label="Employee ID" value={employeeId}
+                    <Input
+                        labelStyle={{ color: 'white', fontWeight: 'normal' }}
+                        label="Employee ID" value={employeeId}
                         onChangeText={setemployeeId}
                         autoCapitalize='none'
                         autoCorrect={false}
                         maxLength={15}
-
                     />
                 </Spacer>
                 <Spacer>
                     <Input
+                        labelStyle={{ color: 'white', fontWeight: 'normal' }}
                         secureTextEntry
                         label="Password" value={password}
                         onChangeText={setPassword}
@@ -70,8 +73,24 @@ const SignupScreen = ({ navigation }) => {
                         <Text style={styles.TextStyle} onPress={() => { navigation.navigate('NewPass') }}> Set New Password</Text>
                     </View>
                 </Spacer>
-
             </View>
+
+            {/* <Spacer>
+             <Button
+                        raised
+                        icon={{ name: 'call', color: 'red'}}
+                        title='BUTTON'
+                        // width='20%'
+                        buttonStyle={{ backgroundColor: '#03106E'}}
+                         />
+                </Spacer> */}
+            <Button
+                icon={{
+                    name: "call",
+                    color: "red"
+                }}
+                title="Button"
+            />
         </ImageBackground>
 
     )
@@ -110,7 +129,7 @@ const styles = StyleSheet.create({
     },
     TextStyle: {
 
-        color: '#E91E63',
+        color: '#FF8001',
         textDecorationLine: 'underline'
 
     }

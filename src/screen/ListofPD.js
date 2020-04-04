@@ -9,6 +9,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import axios from 'axios';
 import { call } from 'react-native-reanimated';
 import DialogInput from 'react-native-dialog-input';
+import { HeaderTitle } from 'react-navigation-stack';
 
 
 // import DialogInput from 'react-native-dialog-input-custom';
@@ -31,10 +32,9 @@ const ListofPD = ({ navigation }) => {
     const [insidnt, setinsidnt] = React.useState();
 
     const [isDialogVisible, setisDialogVisible] = useState(false);
+    const [isAllButtonVisible, setisAllButtonVisible] = useState(false);
 
-    if (callcount == 1) {
-        // RestCall(setlistn);
-    }
+    
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -66,7 +66,21 @@ const ListofPD = ({ navigation }) => {
     const handleConfirm = date => {
         hideDatePicker();
         console.warn("A date has been picked: ", date);
+        let compdate = new Date()
+        console.log("current date is ", compdate.toLocaleDateString())
 
+        if(date.toLocaleDateString()>=compdate.toLocaleDateString()){
+            // setisButtonVisible(true);
+            setisAllButtonVisible(isAllButtonVisible => false)
+            console.log("selected date greater or equal to today",isAllButtonVisible);
+        }else{
+            // setisButtonVisible(false);
+            setisAllButtonVisible(isAllButtonVisible => true)
+            console.log("selected date less than to today",isAllButtonVisible);
+        }
+
+        setlistn(listn => []);
+        setdriven(driven => []);
         // this.state.seteditDate = date
 
         // currentDate = date.toLocaleDateString();
@@ -77,6 +91,7 @@ const ListofPD = ({ navigation }) => {
         currentDate = month + '/' + date + '/' + year;
 
         setCount(count => currentDate)
+
         console.log(currentDate);
         // setDatePickerVisibility(false);
 
@@ -254,7 +269,7 @@ const ListofPD = ({ navigation }) => {
                 {/* <Text>{currentDate}</Text> */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', minwidth: '90%', }} >
 
-                    <Button title={count} buttonStyle={{ backgroundColor: '#03106E', padding: 10, width: 200 }} onPress={showDatePicker} />
+                    <Button title={count} buttonStyle={{ backgroundColor: '#03106E', padding: 10, width: 200 }}  onPress={showDatePicker} />
                     <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -313,19 +328,19 @@ const ListofPD = ({ navigation }) => {
                                     {/* <Text style={{ padding: 5 }}> Pick Time:-{item.pickTime}  </Text> */}
 
                                     <View style={styles.btnStyle}>
-                                        <View style={styles.buttonContainer}>
-                                            <View style={{ marginRight: 10 }}>
-                                                <Button title='Reach' onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime)} />
+                                        <View style={styles.buttonContainer} >
+                                            <View style={{ marginRight: 5 }}>
+                                                <Button title='Reach' disabled={isAllButtonVisible} onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime)} />
                                             </View>
-                                            <View style={{ marginRight: 10 }}>
-                                                <Button title='Call' onPress={() => dialCall(item.mobileNumber)} />
+                                            <View style={{ marginRight: 5}}>
+                                                <Button title='' icon={{ name: 'call', color: 'white'}} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />
                                             </View>
-                                            <View style={{ marginRight: 10 }}>
-                                                <Button title='Cancel' onPress={
+                                            <View style={{ marginRight: 5 }}>
+                                                <Button title='Cancel'  disabled={isAllButtonVisible} onPress={
                                                     () => { navigate('PCancle', [item.empAssignedId, count]) }
                                                 } />
                                             </View>
-                                            <Button title='Pick-up' onPress={() => empPickupPress(item.empAssignedId)} />
+                                            <Button title='Pick-up' disabled={isAllButtonVisible} onPress={() => empPickupPress(item.empAssignedId)} />
                                             <DialogInput isDialogVisible={isDialogVisible}
                                                 title={empID}
                                                 message={"Verify code for employee"}
@@ -395,9 +410,9 @@ const ListofPD = ({ navigation }) => {
                                         <View style={styles.buttonContainerDrop}>
                                             <Text style={styles.textnamestyle1}>{item.dropTime}</Text>
                                             <View style={{ marginRight: 10, marginLeft: 20 }}>
-                                                <Button title='Call' onPress={() => dialCall(item.mobileNumber)} />
+                                                <Button title='' icon={{ name: 'call', color: 'white'}} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />
                                             </View>
-                                            <Button title='Drop' onPress={() => dropEmp(item.empAssignedId)} />
+                                            <Button title='Drop' disabled={isAllButtonVisible} onPress={() => dropEmp(item.empAssignedId)} />
                                         </View>
                                     </View>
 
@@ -415,8 +430,15 @@ const ListofPD = ({ navigation }) => {
 //         headerRight: <Button title={"abc"} onPress={showDatePicker} />
 //     };
 // };
-ListofPD.navigationOptions = {
-    title: null,
+ListofPD.navigationOptions = ({navigation}) => {
+    return{
+        title: null,
+        headerRight: () => (
+            <Button title="test" />
+            // {new Date().toLocaleDateString()}
+        )
+    };
+    
     // headerTransparent: true,
     // headerStyle: { borderBottomWidth: 2, } 
 };
