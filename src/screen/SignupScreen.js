@@ -1,4 +1,4 @@
-import React, { useState, useContext, Component } from 'react'
+import React, { useState, useContext, Component, useEffect } from 'react'
 import { View, StyleSheet, ImageBackground, Image } from 'react-native'
 import NetInfo from "@react-native-community/netinfo";
 import { Text, Input, Button } from 'react-native-elements'
@@ -8,17 +8,19 @@ import { AsyncStorage } from 'react-native'
 
 
 let check = 2;
-const SignupScreen = ({ navigation }) => {
+const SignupScreen =  ({ navigation }) => {
 
-    const { state, signup } = useContext(AuthContext);
+    const { state, signup, tryLocalSignin } = useContext(AuthContext);
     const [employeeId, setemployeeId] = useState('');
     const [password, setPassword] = useState('');
 
     console.log(state);
-    // async () => {
-    //     await AsyncStorage.getItem('token')
-    //     console.log("token check: ", AsyncStorage.getItem('token'))
-    // }
+
+    useEffect(() =>{
+        tryLocalSignin();
+    },[]);
+
+  
 
     return (
         <ImageBackground source={require('../assets/backimg.png')}
@@ -84,13 +86,7 @@ const SignupScreen = ({ navigation }) => {
                         buttonStyle={{ backgroundColor: '#03106E'}}
                          />
                 </Spacer> */}
-            <Button
-                icon={{
-                    name: "call",
-                    color: "red"
-                }}
-                title="Button"
-            />
+           
         </ImageBackground>
 
     )

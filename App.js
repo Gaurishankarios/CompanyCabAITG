@@ -14,7 +14,7 @@ import {setNavigator} from './src/navigationRef'
 import RollScreen from './src/screen/RollScreen'
 import DriverDetail from './src/screen/DriverDetail'
 import ListofPD from './src/screen/ListofPD'
-import PickupDetail from './src/screen/PickupDetail'
+import DriverHomePage from './src/screen/DriverHomePage'
 import DateCheck from './src/screen/DateCheck'
 import CanclePickUP from './src/screen/CanclePickUP'
 import ReachLate from './src/screen/ReachLate'
@@ -27,7 +27,6 @@ const switchNavigator = createSwitchNavigator({
     Forget: ForgetPassword,
     NewPass: SetNewPass,
     
-    
 
   }),
   mainFlow: createBottomTabNavigator({
@@ -35,7 +34,7 @@ const switchNavigator = createSwitchNavigator({
         Role: RollScreen,
         Ddetail: DriverDetail,
         Pdlist: ListofPD,
-        Detail: PickupDetail,
+        DriverHome: DriverHomePage,
         Date: DateCheck,
         PCancle: CanclePickUP,
         LReach: ReachLate,

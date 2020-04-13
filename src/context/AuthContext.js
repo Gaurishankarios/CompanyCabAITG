@@ -55,6 +55,7 @@ const signup = (dispatch) => {
             // dispatch({ type: 'signup', payload: response.data.token });
             if(response.data.status == true){
                 await AsyncStorage.setItem('token', employeeId);
+                dispatch({ type: 'sigin', payload: employeeId });
                 navigate('Home');
             }else{
                 alert('Something went wrong with signIn');
@@ -76,6 +77,19 @@ const signin = (dispatch) => {
     return ({ email, password }) => {
         //try to signin
 
+    }
+}
+
+const tryLocalSignin = (dispatch) =>  {
+    return async() => {
+        const token = await AsyncStorage.getItem('token')
+        if(token){
+            dispatch({type: 'signin', payload: token});
+            navigate('Home')
+        }
+        else{
+            navigate('loginFlow')
+        }
     }
 }
 
@@ -101,7 +115,7 @@ const forgot = (dispatch) => {
 
 export const { Provider, Context } = createDataContext(
     authReducer,
-    { signin, signup, forgot },
+    { signin, signup, forgot, tryLocalSignin },
     // {isSignedIn: false, errorMessage: ''}
     { token: null, errorMessage: '' }
 );

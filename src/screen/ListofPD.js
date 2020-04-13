@@ -10,6 +10,8 @@ import axios from 'axios';
 import { call } from 'react-native-reanimated';
 import DialogInput from 'react-native-dialog-input';
 import { HeaderTitle } from 'react-navigation-stack';
+import FetchingIndicator from 'react-native-fetching-indicator'
+import { bool } from 'prop-types';
 
 
 // import DialogInput from 'react-native-dialog-input-custom';
@@ -34,7 +36,8 @@ const ListofPD = ({ navigation }) => {
     const [isDialogVisible, setisDialogVisible] = useState(false);
     const [isAllButtonVisible, setisAllButtonVisible] = useState(false);
 
-    
+    const [isFetching, setisFetching] = useState(false);
+
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -52,6 +55,7 @@ const ListofPD = ({ navigation }) => {
     }
     var currentDate = alldate;
 
+   
     const showDatePicker = () => {
         setDatePickerVisibility(true);
 
@@ -67,16 +71,16 @@ const ListofPD = ({ navigation }) => {
         hideDatePicker();
         console.warn("A date has been picked: ", date);
         let compdate = new Date()
-        console.log("current date is ", compdate.toLocaleDateString())
+        console.log("current date is ", compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit',year: '2-digit' }))
 
-        if(date.toLocaleDateString()>=compdate.toLocaleDateString()){
+        if (date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit',year: '2-digit' }) >= compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit',year: '2-digit' })) {
             // setisButtonVisible(true);
             setisAllButtonVisible(isAllButtonVisible => false)
-            console.log("selected date greater or equal to today",isAllButtonVisible);
-        }else{
+            console.log("selected date greater or equal to today", isAllButtonVisible);
+        } else {
             // setisButtonVisible(false);
             setisAllButtonVisible(isAllButtonVisible => true)
-            console.log("selected date less than to today",isAllButtonVisible);
+            console.log("selected date less than to today", isAllButtonVisible);
         }
 
         setlistn(listn => []);
@@ -100,12 +104,12 @@ const ListofPD = ({ navigation }) => {
 
     const pickupCall = () => {
         callcount = 1;
-        RestCall(setlistn, count, setdriven, setinsidnt);
+        RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
     }
     const DropupCall = () => {
         callcount = 2;
         console.log('i am in drop method i will pass');
-        RestCall(setlistn, count, setdriven, setinsidnt);
+        RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
     }
     const empPickupPress = (eid) => {
         setisDialogVisible(true);
@@ -114,6 +118,7 @@ const ListofPD = ({ navigation }) => {
     }
 
     const dropEmp = async (emid) => {
+        setisFetching(isFetching => true);
 
         const headers = {
             'Content-Type': 'application/json',
@@ -129,14 +134,17 @@ const ListofPD = ({ navigation }) => {
         console.log(coderespo);
 
         if (coderespo == true) {
+            setisFetching(isFetching => false);
             alert("Reached at location");
         } else {
+            setisFetching(isFetching => false);
             alert("Fail");
         }
 
     }
 
     const reachEmpLoc = async (eid, ptime) => {
+        setisFetching(isFetching => true);
         console.log(eid);
 
         const headers = {
@@ -149,11 +157,15 @@ const ListofPD = ({ navigation }) => {
 
         var hours = new Date().getHours(); //Current Hours
         var min = new Date().getMinutes(); //Current Minutes
+        min = min > 9 ? min : '0' + min;
         var sec = new Date().getSeconds(); //Current Seconds
         console.log(hours + ':' + min)
         let ctime = (hours + ':' + min)
 
+
+
         if (ptime < ctime) {
+            setisFetching(isFetching => false);
             console.log("ctime time is large");
             // setinsidnt(insidnt => response.data)
 
@@ -184,6 +196,7 @@ const ListofPD = ({ navigation }) => {
             let coderespo = response.data.status;
             console.log(coderespo);
 
+            setisFetching(isFetching => false);
             if (coderespo == true) {
                 alert("Reached at location");
             } else {
@@ -269,7 +282,7 @@ const ListofPD = ({ navigation }) => {
                 {/* <Text>{currentDate}</Text> */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', minwidth: '90%', }} >
 
-                    <Button title={count} buttonStyle={{ backgroundColor: '#03106E', padding: 10, width: 200 }}  onPress={showDatePicker} />
+
                     <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -280,6 +293,10 @@ const ListofPD = ({ navigation }) => {
                 </View>
 
                 <View style={styles.btnView}>
+                    <Button title={count}
+                        buttonStyle={{ backgroundColor: '#03106E', padding: 8 }} onPress={showDatePicker}
+                        icon={{ name: 'event', color: 'white' }}
+                    />
                     <View style={styles.btnstylebtn}>
                         <Button title='Pick-up' onPress={() => pickupCall()} />
                     </View>
@@ -290,8 +307,14 @@ const ListofPD = ({ navigation }) => {
 
                 <View style={{
                     backgroundColor: '#6A7FB4', alignItems: 'center',
-                    justifyContent: "center"
+                    justifyContent: "center", marginHorizontal: 10, marginVertical: 5
                 }}>
+                    {/* <Text style={{
+                        fontSize: 18,
+                        textAlign: 'auto',
+                        color: 'white',
+                        }}>Date is- {count}
+                    </Text> */}
                     <Text style={{
                         fontSize: 18,
                         textAlign: 'center',
@@ -332,23 +355,16 @@ const ListofPD = ({ navigation }) => {
                                             <View style={{ marginRight: 5 }}>
                                                 <Button title='Reach' disabled={isAllButtonVisible} onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime)} />
                                             </View>
-                                            <View style={{ marginRight: 5}}>
-                                                <Button title='' icon={{ name: 'call', color: 'white'}} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />
+                                            <View style={{ marginRight: 5 }}>
+                                                <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />
                                             </View>
                                             <View style={{ marginRight: 5 }}>
-                                                <Button title='Cancel'  disabled={isAllButtonVisible} onPress={
+                                                <Button title='' icon={{ name: 'cancel', color: 'white' }} disabled={isAllButtonVisible} onPress={
                                                     () => { navigate('PCancle', [item.empAssignedId, count]) }
                                                 } />
                                             </View>
                                             <Button title='Pick-up' disabled={isAllButtonVisible} onPress={() => empPickupPress(item.empAssignedId)} />
-                                            <DialogInput isDialogVisible={isDialogVisible}
-                                                title={empID}
-                                                message={"Verify code for employee"}
-                                                hintInput={" INPUT"}
-                                                textInputProps={{ keyboardType: 'numbers-and-punctuation' }}
-                                                submitInput={(inputText) => pinconformPickup(inputText, empID)}
-                                                closeDialog={() => { setisDialogVisible(false) }}
-                                            ></DialogInput>
+
                                         </View>
                                     </View>
 
@@ -356,6 +372,16 @@ const ListofPD = ({ navigation }) => {
                             </TouchableOpacity>
                         )
                     }} />
+                <DialogInput isDialogVisible={isDialogVisible}
+                    title={empID}
+                    message={"Verify code for employee"}
+                    hintInput={" INPUT"}
+                    textInputProps={{ keyboardType: 'numbers-and-punctuation' }}
+                    submitInput={(inputText) => pinconformPickup(inputText, empID)}
+                    closeDialog={() => { setisDialogVisible(false) }}
+                ></DialogInput>
+
+                <FetchingIndicator isFetching={isFetching} />
             </View>
         )
     } else if (callcount == 2) {
@@ -410,7 +436,7 @@ const ListofPD = ({ navigation }) => {
                                         <View style={styles.buttonContainerDrop}>
                                             <Text style={styles.textnamestyle1}>{item.dropTime}</Text>
                                             <View style={{ marginRight: 10, marginLeft: 20 }}>
-                                                <Button title='' icon={{ name: 'call', color: 'white'}} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />
+                                                <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />
                                             </View>
                                             <Button title='Drop' disabled={isAllButtonVisible} onPress={() => dropEmp(item.empAssignedId)} />
                                         </View>
@@ -420,6 +446,7 @@ const ListofPD = ({ navigation }) => {
                             </TouchableOpacity>
                         )
                     }} />
+                <FetchingIndicator isFetching={isFetching} />
             </View>
         )
     }
@@ -430,23 +457,33 @@ const ListofPD = ({ navigation }) => {
 //         headerRight: <Button title={"abc"} onPress={showDatePicker} />
 //     };
 // };
-ListofPD.navigationOptions = ({navigation}) => {
-    return{
+ListofPD.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
         title: null,
-        headerRight: () => (
-            <Button title="test" />
-            // {new Date().toLocaleDateString()}
-        )
+        // headerRight: () => (
+
+        // <Button title="test" />
+        // <Button title={this.count} buttonStyle={{ backgroundColor: '#03106E', padding: 2, width: 200, height: 30 }}   />
+        // {new Date().toLocaleDateString()}
+        // )
+        // headerRight: <Button
+        //                      title="Refresh"
+        //                      onPress={ () => {params.showDatePicker} } />
+
+
     };
-    
-    // headerTransparent: true,
-    // headerStyle: { borderBottomWidth: 2, } 
+
+   
 };
 
 
 
-RestCall = async (setlistn, cdate, setdriven, setinsidnt) => {
+RestCall = async (setlistn, cdate, setdriven, setinsidnt, setisFetching) => {
     console.log('date is here ... ', cdate);
+
+    setisFetching(isFetching => true);
     if (callcount == 1) {
         console.log('token is ', await AsyncStorage.getItem('token'));
         // callcount = 2;
@@ -460,16 +497,21 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt) => {
             param,
             headers)
 
+        setisFetching(isFetching => false);
         console.log(response.data.pickList);
         tmpstatus = response.data.pickList;
         tmpDrive = response.data.vehicleDetails[0].vehicleNumber;
         tmpDrive += "\n Vehicle location-"
         tmpDrive += response.data.vehicleDetails[0].vehicleAddress;
         console.log(tmpDrive[0], tmpstatus);
+
         setlistn(listn => tmpstatus);
         setdriven(driven => tmpDrive);
 
         setinsidnt(insidnt => response.data)
+
+
+
         // console.log(setdriven);
     }
     else if (callcount == 2) {
@@ -489,6 +531,7 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt) => {
             headers)
 
 
+        setisFetching(isFetching => false);
         tmpstatus = response.data.dropList;
         console.log(tmpstatus);
         setlistn(listn => tmpstatus);
@@ -497,6 +540,8 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt) => {
         tmpDrive += "\n Vehicle location-"
         tmpDrive += response.data.vehicleDetails[0].vehicleAddress;
         setdriven(driven => tmpDrive);
+
+
     }
 }
 
@@ -505,6 +550,7 @@ const styles = StyleSheet.create({
     btnView: {
         flexDirection: 'row',
         height: 50,
+        marginTop: 5,
         // width: 200,
         margin: 2,
         // justifyContent: 'space-evenly',
@@ -514,17 +560,18 @@ const styles = StyleSheet.create({
 
     },
     btnstylebtn: {
-        maxWidth: '50%',
+        maxWidth: '40%',
         margin: 5,
         // alignItems: 'center',
         justifyContent: 'center',
         justifyContent: 'space-evenly',
         // width: 800,
-        minWidth: '40%'
+        minWidth: '25%'
     },
     touchView: {
-        margin: 10,
-        marginTop: 10,
+        margin: 3,
+        marginHorizontal: 10,
+        // marginTop: 10,
         padding: 10,
         backgroundColor: 'white',
         // height: 130,
@@ -537,7 +584,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        height: 40,
+        // height: 40,
         // margin: 10,
         marginTop: 20,
         marginBottom: 20,
@@ -561,11 +608,12 @@ const styles = StyleSheet.create({
     },
     textnamestyle: {
         fontSize: 16,
+        fontWeight: "bold",
         color: '#03106E',
         padding: 2,
     },
     textnamestyle1: {
-        fontSize: 13,
+        fontSize: 15,
         color: '#FF8001',
         padding: 2,
         alignItems: 'flex-end'

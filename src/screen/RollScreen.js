@@ -80,7 +80,7 @@ const RollScreen = ({ navigation }) => {
                     roundedImage={false}
                     style={miniCardStyle}
                     width={(Dimensions.get("window").width / 2) - 20}
-                    // onPress={() => { navigate('Pdlist') }}
+                    onPress={() => { navigate('DriverHome') }}   //for testing
                 />
                 <CardViewWithImage
                     // width={(200}
@@ -92,8 +92,10 @@ const RollScreen = ({ navigation }) => {
                     roundedImage={false}
                     style={miniCardStyle}
                     width={(Dimensions.get("window").width / 2) - 20}
-                    onPress={() => { navigate('Pdlist') }}
+                    onPress={() => { navigate('DriverHome') }}  //Pdlist
                 />
+
+                
 
 
             </View>
