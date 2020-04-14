@@ -44,7 +44,7 @@ const DriverHomePage = () => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
+            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('YourRide') }}>
                 <View style={styles.cardstyle}>
                     <CardViewWithImage
                         source={require('../assets/your-ride-icon.png')}
@@ -59,7 +59,7 @@ const DriverHomePage = () => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
+            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('DScheduleRide') }}>
                 <View style={styles.cardstyle}>
                     <CardViewWithImage
                         source={require('../assets/schedule-icon.png')}

@@ -55,7 +55,7 @@ const ListofPD = ({ navigation }) => {
     }
     var currentDate = alldate;
 
-   
+
     const showDatePicker = () => {
         setDatePickerVisibility(true);
 
@@ -71,9 +71,9 @@ const ListofPD = ({ navigation }) => {
         hideDatePicker();
         console.warn("A date has been picked: ", date);
         let compdate = new Date()
-        console.log("current date is ", compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit',year: '2-digit' }))
+        console.log("current date is ", compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }))
 
-        if (date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit',year: '2-digit' }) >= compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit',year: '2-digit' })) {
+        if (date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }) >= compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' })) {
             // setisButtonVisible(true);
             setisAllButtonVisible(isAllButtonVisible => false)
             console.log("selected date greater or equal to today", isAllButtonVisible);
@@ -390,7 +390,7 @@ const ListofPD = ({ navigation }) => {
                 {/* <Text>{currentDate}</Text> */}
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', minwidth: '90%', }} >
 
-                    <Button title={count} buttonStyle={{ backgroundColor: '#03106E', padding: 10, width: 200 }} onPress={showDatePicker} />
+                    {/* <Button title={count} buttonStyle={{ backgroundColor: '#03106E', padding: 10, width: 200 }} onPress={showDatePicker} /> */}
                     <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -401,6 +401,10 @@ const ListofPD = ({ navigation }) => {
                 </View>
 
                 <View style={styles.btnView}>
+                    <Button title={count}
+                        buttonStyle={{ backgroundColor: '#03106E', padding: 8 }} onPress={showDatePicker}
+                        icon={{ name: 'event', color: 'white' }}
+                    />
                     <View style={styles.btnstylebtn}>
                         <Button title='Pick-up' onPress={() => pickupCall()} />
                     </View>
@@ -475,7 +479,7 @@ ListofPD.navigationOptions = ({ navigation }) => {
 
     };
 
-   
+
 };
 
 

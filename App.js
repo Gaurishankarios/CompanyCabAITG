@@ -18,6 +18,8 @@ import DriverHomePage from './src/screen/DriverHomePage'
 import DateCheck from './src/screen/DateCheck'
 import CanclePickUP from './src/screen/CanclePickUP'
 import ReachLate from './src/screen/ReachLate'
+import DriverUrRide from './src/screen/DriverUrRide'
+import DScheduleNewRide from './src/screen/DScheduleNewRide'
 
 
 const switchNavigator = createSwitchNavigator({
@@ -38,6 +40,8 @@ const switchNavigator = createSwitchNavigator({
         Date: DateCheck,
         PCancle: CanclePickUP,
         LReach: ReachLate,
+        YourRide: DriverUrRide,
+        DScheduleRide: DScheduleNewRide,
       }),
 
     Home: HomePage,
