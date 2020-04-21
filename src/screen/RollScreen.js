@@ -80,7 +80,7 @@ const RollScreen = ({ navigation }) => {
                     roundedImage={false}
                     style={miniCardStyle}
                     width={(Dimensions.get("window").width / 2) - 20}
-                    onPress={() => { navigate('DriverHome') }}   //for testing
+                    onPress={() => { navigate('HomeEmployee') }}   //HomeEmployee
                 />
                 <CardViewWithImage
                     // width={(200}

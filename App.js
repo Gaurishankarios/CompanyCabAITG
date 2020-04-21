@@ -20,19 +20,23 @@ import CanclePickUP from './src/screen/CanclePickUP'
 import ReachLate from './src/screen/ReachLate'
 import DriverUrRide from './src/screen/DriverUrRide'
 import DScheduleNewRide from './src/screen/DScheduleNewRide'
-
+import DriverBillUp from './src/screen/DriverBillUp'
+import EmpHomePage from './src/screen/EmpHomePage'
+import ESchedulRide from './src/screen/ESchedulRide'
 
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
-    Signup: SignupScreen,
-    Signin: SigninScreen,
+    Signin: SignupScreen,
+    // Signin: SigninScreen,
     Forget: ForgetPassword,
     NewPass: SetNewPass,
     
 
   }),
   mainFlow: createBottomTabNavigator({
-      trackListFlow: createStackNavigator({
+      HOME: createStackNavigator({
+        Home: HomePage,
+
         Role: RollScreen,
         Ddetail: DriverDetail,
         Pdlist: ListofPD,
@@ -42,13 +46,25 @@ const switchNavigator = createSwitchNavigator({
         LReach: ReachLate,
         YourRide: DriverUrRide,
         DScheduleRide: DScheduleNewRide,
+        Upload: DriverBillUp,
+        HomeEmployee: EmpHomePage,
+        EmpSchedule: ESchedulRide,
+
+        // navigationOptions: {
+          // tabBarLabel: 'Track', 
+          // tabBarIcon: ({ tintColor }) => (
+          //     <Ionicons name="ios-home" color={tintColor} size={20} />
+          // )
+      // }
+
       }),
 
-    Home: HomePage,
-    Profile: ProfilePage,
+    // Home: HomePage,
+    PROFILE: ProfilePage,
   }),
-
+ 
 });
+
 
 // export default createAppContainer(switchNavigator);
 const App = createAppContainer(switchNavigator);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-native-material-dropdown';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, AsyncStorage } from 'react-native';
 import axios from 'axios';
 import { set } from 'react-native-reanimated';
 
@@ -9,6 +9,7 @@ class CanclePickUp extends Component {
     constructor(props) {
         //constructor to set default state  
         super(props);
+        let tokenId = 0;
         this.state = {
             nameList: [],
             dataparam: null,
@@ -16,12 +17,15 @@ class CanclePickUp extends Component {
     }
 
     finalcallreach = async(value) => {
+        tokenId=await AsyncStorage.getItem('token');
+        console.log('token is ', tokenId);
+
 
         const headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const parameter = { empAssignedId: this.state.dataparam[0], rideDate: this.state.dataparam[1], driverAssignedId: "ait306", incidenceValue: "Hello4" }
+        const parameter = { empAssignedId: this.state.dataparam[0], rideDate: this.state.dataparam[1], driverAssignedId: tokenId, incidenceValue: "Hello4" }
         console.log("in call", value, this.state.dataparam);
         // let tmp = this.state.dataparam;
         parameter.incidenceValue = value;

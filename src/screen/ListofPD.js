@@ -21,6 +21,7 @@ let tmpstatus = [];
 let tmpDrive = [];
 let callcount = 1;
 let insidentno = 1;
+let tokenId = 0;
 
 
 const ListofPD = ({ navigation }) => {
@@ -124,7 +125,7 @@ const ListofPD = ({ navigation }) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const param = { empAssignedId: emid, rideDate: count, driverAssignedId: "ait306" }
+        const param = { empAssignedId: emid, rideDate: count, driverAssignedId: tokenId }
 
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/dropreach',
             param,
@@ -151,7 +152,7 @@ const ListofPD = ({ navigation }) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const param = { empAssignedId: eid, rideDate: count, driverAssignedId: "ait306", incidenceId: 1 }
+        const param = { empAssignedId: eid, rideDate: count, driverAssignedId: tokenId, incidenceId: 1 }
 
         // console.log(insidnt.incidenceList[0].title);
 
@@ -490,13 +491,14 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt, setisFetching) => {
     setisFetching(isFetching => true);
     if (callcount == 1) {
         console.log('token is ', await AsyncStorage.getItem('token'));
+        tokenId=await AsyncStorage.getItem('token');
         // callcount = 2;
         const headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
         // cdate = '3/18/2020'
-        const param = { rideDate: cdate, empAssignedId: "ait306" }
+        const param = { rideDate: cdate, empAssignedId: tokenId }
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/picklist',
             param,
             headers)
@@ -529,7 +531,7 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt, setisFetching) => {
             'Accept': 'application/json'
         }
         // cdate = '3/18/2020'
-        const param = { rideDate: cdate, empAssignedId: "ait306" }
+        const param = { rideDate: cdate, empAssignedId: tokenId }
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/droplist',
             param,
             headers)

@@ -4,6 +4,8 @@ import Spacer from '../components/Spacer'
 import { Text, Input, Button } from 'react-native-elements'
 import { navigate } from '../navigationRef'
 import { CardViewWithIcon, CardViewWithImage } from "react-native-simple-card-view";
+import * as Svg from 'react-native-svg';
+// import carSVG from "../assets/car3"
 
 
 const DriverHomePage = () => {
@@ -29,15 +31,19 @@ const DriverHomePage = () => {
             <TouchableOpacity style={styles.touchView} onPress={() => { navigate('Pdlist') }}>
                 <View style={styles.cardstyle}>
                     <CardViewWithImage
-                        source={require('../assets/car-icon.png')}
+                        source={require('../assets/newcar.svg')} //car-icon.png
                         imageWidth={90}
                         roundedImage={false}
                         style={miniCardStyle}
                         width={(Dimensions.get("window").width / 2) - 40}
                     />
                     <View style={{ width: ((Dimensions.get("window").width / 2) - 5) }}>
-                        <Button title="Daily Rides"
+                        <Button title="Daily Employee Ride"
                             buttonStyle={{ backgroundColor: '#03106E', padding: 15 }}
+                            titleStyle={{
+                                color: "white",
+                                fontSize: 16,
+                            }}
                             onPress={() => { navigate('Pdlist') }}
                         />
                     </View>
@@ -54,7 +60,13 @@ const DriverHomePage = () => {
                         width={(Dimensions.get("window").width / 2) - 40}
                     />
                     <View style={{ width: ((Dimensions.get("window").width / 2) - 5) }}>
-                        <Button title="Yours Rides" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }} />
+                        <Button title="View Your Ride" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }}
+                         titleStyle={{
+                            color: "white",
+                            fontSize: 16,
+                        }}
+                        onPress={() => { navigate('YourRide') }}
+                         />
                     </View>
                 </View>
             </TouchableOpacity>
@@ -74,12 +86,13 @@ const DriverHomePage = () => {
                                 color: "white",
                                 fontSize: 16,
                             }}
+                            onPress={() => { navigate('DScheduleRide') }}
                         />
                     </View>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
+            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('Upload') }}>
                 <View style={styles.cardstyle}>
                     <CardViewWithImage
                         source={require('../assets/bills-icon.png')}
@@ -89,7 +102,13 @@ const DriverHomePage = () => {
                         width={(Dimensions.get("window").width / 2) - 40}
                     />
                     <View style={{ width: ((Dimensions.get("window").width / 2) - 5) }}>
-                        <Button title="Add Ride Bill" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }} />
+                        <Button title="Add Ola/Uber Bill" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }} 
+                         titleStyle={{
+                            color: "white",
+                            fontSize: 16,
+                        }}
+                        onPress={() => { navigate('Upload') }}
+                        />
                     </View>
                 </View>
             </TouchableOpacity>
