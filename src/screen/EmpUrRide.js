@@ -4,7 +4,7 @@ import { Text, Input, Button } from 'react-native-elements'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import axios from 'axios'
 
-const DriverUrRide = () => {
+const EmpUrRide = () => {
     let tokedId = 0;
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -83,8 +83,6 @@ const DriverUrRide = () => {
         rideTypePD = typrid;
 
         if (typrid == 1) {
-            // setisPick(isPick => "blue");
-            // setisDrop(isDrop => "#03106E");
             setisPick(isPick => "orange");
             setisDrop(isDrop => "#03106E");
         } else if (typrid == 2) {
@@ -220,7 +218,7 @@ const styles = StyleSheet.create({
         // maxWidth: '50%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
 
     },
     btnstylebtn: {
@@ -302,4 +300,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DriverUrRide;
+export default EmpUrRide;

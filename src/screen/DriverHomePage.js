@@ -31,8 +31,9 @@ const DriverHomePage = () => {
             <TouchableOpacity style={styles.touchView} onPress={() => { navigate('Pdlist') }}>
                 <View style={styles.cardstyle}>
                     <CardViewWithImage
-                        source={require('../assets/newcar.svg')} //car-icon.png
+                        source={require('../assets/car-icon.png')} //car-icon.png
                         imageWidth={90}
+                        // imageHeight={60}
                         roundedImage={false}
                         style={miniCardStyle}
                         width={(Dimensions.get("window").width / 2) - 40}

@@ -23,6 +23,8 @@ import DScheduleNewRide from './src/screen/DScheduleNewRide'
 import DriverBillUp from './src/screen/DriverBillUp'
 import EmpHomePage from './src/screen/EmpHomePage'
 import ESchedulRide from './src/screen/ESchedulRide'
+import EmpUrRide from './src/screen/EmpUrRide'
+
 
 const switchNavigator = createSwitchNavigator({
   loginFlow: createStackNavigator({
@@ -49,6 +51,7 @@ const switchNavigator = createSwitchNavigator({
         Upload: DriverBillUp,
         HomeEmployee: EmpHomePage,
         EmpSchedule: ESchedulRide,
+        Rides: EmpUrRide,
 
         // navigationOptions: {
           // tabBarLabel: 'Track', 

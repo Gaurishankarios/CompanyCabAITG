@@ -48,6 +48,7 @@ const SignupScreen =  ({ navigation }) => {
                         autoCapitalize='none'
                         autoCorrect={false}
                         maxLength={15}
+                        clearButtonMode="always"
                     />
                 </Spacer>
                 <Spacer>
@@ -59,6 +60,7 @@ const SignupScreen =  ({ navigation }) => {
                         autoCapitalize='none'
                         autoCorrect={false}
                         maxLength={8}
+                        clearButtonMode="always"
 
                     />
                 </Spacer>

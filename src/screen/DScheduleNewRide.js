@@ -16,9 +16,9 @@ const DScheduleNewRide = ({navigation}) => {
     let tokenId=0;
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [rideType, setrideType] = useState();
-    const [Reason, setReason] = useState()
-    const [fromLoc, setfromLoc] = useState()
-    const [toLoc, settoLoc] = useState()
+    const [Reason, setReason] = useState('')
+    const [fromLoc, setfromLoc] = useState('')
+    const [toLoc, settoLoc] = useState('')
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -26,7 +26,7 @@ const DScheduleNewRide = ({navigation}) => {
     const alldate = month + '/' + date + '/' + year;
 
     const [count, setCount] = React.useState(alldate);
-    const [timecall, settimecall] = React.useState();
+    const [timecall, settimecall] = React.useState('');
     const [datecall, setdatecall] = React.useState();
 
     const showDatePicker = () => {
@@ -79,46 +79,53 @@ const DScheduleNewRide = ({navigation}) => {
             'Accept': 'application/json'
         }
 
-        // if(fromLoc)
-        const param = {
-            pickLocationName: fromLoc,
-            dropLocationName: toLoc,
-            rideDate: datecall,
-            rideType: rideint,
-            scheduleReason: Reason,
-            empAssignedId: tokedId,
-            rideTime: timecall,
-        }
-        console.log(param);
-
-        const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/schedule',
-            param,
-            headers)
-
-        let coderespo = response.data.status;
-        console.log(coderespo);
-        if (coderespo == true) {
-            // setisFetching(isFetching => false);
-            Alert.alert(
-                'Sent Request',
-                'Sent request for aprroval',
-                [
-                    { text: 'Ok', onPress: () => navigation.pop(), style: 'cancel' },
-                ],
-                { cancelable: false }
-            )
+        if(fromLoc=="" || toLoc=='' || timecall=='' || rideType<1 || Reason=='' ){
+            console.log("Do not call");
+            alert('Select Date and time and fill all field')
         }else{
-            // setisFetching(isFetching => false);
-            Alert.alert(
-                'Failure',
-                'Something went wrong',
-                [
-                    { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                ],
-                { cancelable: false }
-            )
+
+            const param = {
+                pickLocationName: fromLoc,
+                dropLocationName: toLoc,
+                rideDate: datecall,
+                rideType: rideint,
+                scheduleReason: Reason,
+                empAssignedId: tokedId,
+                rideTime: timecall,
+            }
+            console.log(param);
+    
+            const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/schedule',
+                param,
+                headers)
+    
+            let coderespo = response.data.status;
+            console.log(coderespo);
+            if (coderespo == true) {
+                // setisFetching(isFetching => false);
+                Alert.alert(
+                    'Sent Request',
+                    'Sent request for aprroval',
+                    [
+                        { text: 'Ok', onPress: () => navigation.pop(), style: 'cancel' },
+                    ],
+                    { cancelable: false }
+                )
+            }else{
+                // setisFetching(isFetching => false);
+                Alert.alert(
+                    'Failure',
+                    'Something went wrong',
+                    [
+                        { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                    ],
+                    { cancelable: false }
+                )
+            }
+    
         }
 
+      
 
     }
 

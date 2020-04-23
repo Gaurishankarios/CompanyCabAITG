@@ -12,6 +12,7 @@ import DialogInput from 'react-native-dialog-input';
 import { HeaderTitle } from 'react-navigation-stack';
 import FetchingIndicator from 'react-native-fetching-indicator'
 import { bool } from 'prop-types';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 
 
 // import DialogInput from 'react-native-dialog-input-custom';

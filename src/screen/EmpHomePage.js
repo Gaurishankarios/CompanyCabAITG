@@ -26,7 +26,7 @@ const EmpHomePage = () => {
     return (
         <ScrollView>
 
-            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
+            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('Rides') }}>
                 <View style={styles.cardstyle}>
                     <CardViewWithImage
                         source={require('../assets/car-icon.png')}

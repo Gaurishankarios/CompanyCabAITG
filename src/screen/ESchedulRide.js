@@ -12,9 +12,9 @@ import axios from 'axios';
 import { navigate } from '../navigationRef'
 
 
-const ESchedulRide = ({navigation}) => {
+const ESchedulRide = ({ navigation }) => {
 
-    let tokenId=0;
+    let tokenId = 0;
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [rideType, setrideType] = useState();
     const [Reason, setReason] = useState()
@@ -47,7 +47,7 @@ const ESchedulRide = ({navigation}) => {
         var month = dt.getMonth() + 1;
         var year = dt.getFullYear();
 
-        let sdate= month + '/' + date + '/' + year;
+        let sdate = month + '/' + date + '/' + year;
         var hour = dt.getHours()
         var min = dt.getMinutes()
         var sec = dt.getSeconds()
@@ -67,7 +67,7 @@ const ESchedulRide = ({navigation}) => {
     //Time  picker 
 
     const selectNewRideCall = async () => {
-        tokedId=await AsyncStorage.getItem('token');
+        tokedId = await AsyncStorage.getItem('token');
         console.log('token is ', tokedId);
         let rideint = 0;
         if (rideType == "Pick-up") {
@@ -75,47 +75,54 @@ const ESchedulRide = ({navigation}) => {
         } else if (rideType == "Drop") {
             rideint = 2;
         }
-        const headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-        const param = {
-            pickLocationName: fromLoc,
-            dropLocationName: toLoc,
-            rideDate: datecall,
-            rideType: rideint,
-            scheduleReason: Reason,
-            empAssignedId: tokedId,
-            rideTime: timecall,
-        }
-        console.log(param);
 
-        const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/schedule',
-            param,
-            headers)
+        if (fromLoc == "" || toLoc == '' || timecall == '' || rideType < 1 || Reason == '') {
+            console.log("Do not call");
+            alert('Select Date and time and fill all field')
+        } else {
 
-        let coderespo = response.data.status;
-        console.log(coderespo);
-        if (coderespo == true) {
-            // setisFetching(isFetching => false);
-            Alert.alert(
-                'Sent Request',
-                'Sent request for aprroval',
-                [
-                    { text: 'Ok', onPress: () => navigation.pop(), style: 'cancel' },
-                ],
-                { cancelable: false }
-            )
-        }else{
-            // setisFetching(isFetching => false);
-            Alert.alert(
-                'Failure',
-                'Something went wrong',
-                [
-                    { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                ],
-                { cancelable: false }
-            )
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+            const param = {
+                pickLocationName: fromLoc,
+                dropLocationName: toLoc,
+                rideDate: datecall,
+                rideType: rideint,
+                scheduleReason: Reason,
+                empAssignedId: tokedId,
+                rideTime: timecall,
+            }
+            console.log(param);
+
+            const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/schedule',
+                param,
+                headers)
+
+            let coderespo = response.data.status;
+            console.log(coderespo);
+            if (coderespo == true) {
+                // setisFetching(isFetching => false);
+                Alert.alert(
+                    'Sent Request',
+                    'Sent request for aprroval',
+                    [
+                        { text: 'Ok', onPress: () => navigation.pop(), style: 'cancel' },
+                    ],
+                    { cancelable: false }
+                )
+            } else {
+                // setisFetching(isFetching => false);
+                Alert.alert(
+                    'Failure',
+                    'Something went wrong',
+                    [
+                        { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                    ],
+                    { cancelable: false }
+                )
+            }
         }
 
 
@@ -188,7 +195,7 @@ const ESchedulRide = ({navigation}) => {
                 />
             </View>
             <Spacer>
-                <Button title="Send For Approvel" buttonStyle={{ backgroundColor: '#03106E' }} //onPress={selectNewRideCall}
+                <Button title="Send For Approvel" buttonStyle={{ backgroundColor: '#03106E' }} onPress={selectNewRideCall}
                     icon={{
                         name: 'done', color: 'white',
                         //type: 'MaterialCommunityIcons'  //airline-seat-recline-normal //baseline-departure-board-black

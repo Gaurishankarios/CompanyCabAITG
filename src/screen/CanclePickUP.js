@@ -40,7 +40,8 @@ class CanclePickUp extends Component {
             console.log(coderespo);
 
             if (coderespo == true) {
-                alert("Cancle ride with reason");
+                // alert("Cancle ride with reason");
+                this.props.navigation.pop()
                 //  navigation.pop() 
             } else {
                 alert("Fail");
