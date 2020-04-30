@@ -61,6 +61,7 @@ const DriverUrRide = () => {
 
     const dialCall = (mobileNo) => {
         console.log(mobileNo);
+        
         // let phoneNumber = '';
         if (Platform.OS === 'android') {
             phoneNumber = `tel:${mobileNo}`;
@@ -144,8 +145,9 @@ const DriverUrRide = () => {
                     data={newList}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
-                                <View >
+                            <TouchableOpacity  style={styles.touchView} //onPress={() => { navigate('') }}
+                            >
+                                <View>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                                             <Text style={styles.textnamestyle}>Date:- </Text>
@@ -187,7 +189,7 @@ const DriverUrRide = () => {
                                         <View style={styles.buttonContainerDrop}>
                                             {/* <Text style={styles.textnamestyle1}>{item.dropTime}</Text> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            <Button title='Call' icon={{ name: 'call', color: 'white' }} onPress={() => dialCall(item.mobileNumber)}
+                                            <Button title='Call' icon={{ name: 'call', color: 'white' }} onPress={() =>   dialCall(item.mobileNumber) }
                                             />
                                             {/* </View> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}

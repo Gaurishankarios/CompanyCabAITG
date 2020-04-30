@@ -49,12 +49,13 @@ const ESchedulRide = ({ navigation }) => {
 
         let sdate = month + '/' + date + '/' + year;
         var hour = dt.getHours()
-        var min = dt.getMinutes()
-        var sec = dt.getSeconds()
+        var min = (dt.getMinutes()<10 ? '0' : '') + dt.getMinutes()      //date.getMinutes()<10?'0':'') + date.getMinutes()
+        // var sec = dt.getSeconds()
         currentDate = month + '/' + date + '/' + year + ' Time:-' + hour + ':' + min;
-        let timepass = hour + ':' + min + ':' + sec;
+        let timepass = hour + ':' + min ;
         console.log('date and time is ', currentDate)
         console.log("time is :-", timepass)
+       
 
         setCount(count => currentDate)
         settimecall(timecall => timepass)
@@ -76,7 +77,7 @@ const ESchedulRide = ({ navigation }) => {
             rideint = 2;
         }
 
-        if (fromLoc == "" || toLoc == '' || timecall == '' || rideType < 1 || Reason == '') {
+        if (fromLoc == undefined || toLoc == undefined || timecall == undefined || rideType < 1 || Reason == undefined) {
             console.log("Do not call");
             alert('Select Date and time and fill all field')
         } else {
@@ -96,7 +97,7 @@ const ESchedulRide = ({ navigation }) => {
             }
             console.log(param);
 
-            const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/schedule',
+            const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/employee/schedule',
                 param,
                 headers)
 
@@ -112,16 +113,29 @@ const ESchedulRide = ({ navigation }) => {
                     ],
                     { cancelable: false }
                 )
-            } else {
+            } else if (coderespo == false) {
                 // setisFetching(isFetching => false);
-                Alert.alert(
-                    'Failure',
-                    'Something went wrong',
-                    [
-                        { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                    ],
-                    { cancelable: false }
-                )
+                if (response.data.Message == "Duplicate details") {
+                    Alert.alert(
+                        'Failure',
+                        'Duplicate details',
+                        [
+                            { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                        ],
+                        { cancelable: false }
+                    )
+                }
+                else {
+
+                    Alert.alert(
+                        'Failure',
+                        'Something went wrong',
+                        [
+                            { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                        ],
+                        { cancelable: false }
+                    )
+                }
             }
         }
 

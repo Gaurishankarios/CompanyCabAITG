@@ -25,7 +25,16 @@ class CanclePickUp extends Component {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const parameter = { empAssignedId: this.state.dataparam[0], rideDate: this.state.dataparam[1], driverAssignedId: tokenId, incidenceValue: "Hello4" }
+        let parameter = {};
+        if(this.state.dataparam[2] == "fromD"){
+            console.log("from dricer");
+            parameter = { empAssignedId: this.state.dataparam[0], rideDate: this.state.dataparam[1], driverAssignedId: tokenId, incidenceValue: "Hello4", rideType:this.state.dataparam[3]  }//need to change in  ListPD
+        }else if(this.state.dataparam[2] == "fromE"){
+            console.log("from employee");
+           // parameter = { empAssignedId: tokenId, rideDate: this.state.dataparam[1], driverAssignedId: this.state.dataparam[0], incidenceValue: "Hello4", rideType:this.state.dataparam[3]  }
+            parameter = { rideId: this.state.dataparam[4],  incidenceValue: "Hello4"  }
+        }
+     
         console.log("in call", value, this.state.dataparam);
         // let tmp = this.state.dataparam;
         parameter.incidenceValue = value;
@@ -35,6 +44,7 @@ class CanclePickUp extends Component {
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/cancel',
                 parameter,
                 headers)
+                console.log("param is ", parameter)
 
             let coderespo = response.data.status;
             console.log(coderespo);

@@ -79,7 +79,7 @@ const DScheduleNewRide = ({navigation}) => {
             'Accept': 'application/json'
         }
 
-        if(fromLoc=="" || toLoc=='' || timecall=='' || rideType<1 || Reason=='' ){
+        if(fromLoc==undefined || fromLoc=="" || toLoc==undefined || toLoc=="" || timecall==undefined || timecall=="" || rideType<1 || Reason==undefined || Reason=="" ){
             console.log("Do not call");
             alert('Select Date and time and fill all field')
         }else{

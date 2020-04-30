@@ -40,6 +40,9 @@ const ListofPD = ({ navigation }) => {
 
     const [isFetching, setisFetching] = useState(false);
 
+    const [isPick, setisPick] = useState("#03106E");
+    const [isDrop, setisDrop] = useState("#03106E");
+
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -84,6 +87,8 @@ const ListofPD = ({ navigation }) => {
             setisAllButtonVisible(isAllButtonVisible => true)
             console.log("selected date less than to today", isAllButtonVisible);
         }
+        setisPick(isPick => "#03106E");
+            setisDrop(isDrop => "#03106E");
 
         setlistn(listn => []);
         setdriven(driven => []);
@@ -105,10 +110,18 @@ const ListofPD = ({ navigation }) => {
     }
 
     const pickupCall = () => {
+        // if (typrid == 1) {
+            setisPick(isPick => "orange");
+            setisDrop(isDrop => "#03106E");
+        // } else if (typrid == 2) {
+           
+        // }
         callcount = 1;
         RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
     }
     const DropupCall = () => {
+        setisPick(isPick => "#03106E");
+        setisDrop(isDrop => "orange");
         callcount = 2;
         console.log('i am in drop method i will pass');
         RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
@@ -300,10 +313,10 @@ const ListofPD = ({ navigation }) => {
                         icon={{ name: 'event', color: 'white' }}
                     />
                     <View style={styles.btnstylebtn}>
-                        <Button title='Pick-up' onPress={() => pickupCall()} />
+                        <Button title='Pick-up' buttonStyle={{ backgroundColor: isPick }} onPress={() => pickupCall()} />
                     </View>
                     <View style={styles.btnstylebtn}>
-                        <Button title='Drop' onPress={() => DropupCall()} />
+                        <Button title='Drop' buttonStyle={{ backgroundColor: isDrop }}  onPress={() => DropupCall()} />
                     </View>
                 </View>
 
@@ -355,17 +368,17 @@ const ListofPD = ({ navigation }) => {
                                     <View style={styles.btnStyle}>
                                         <View style={styles.buttonContainer} >
                                             <View style={{ marginRight: 5 }}>
-                                                <Button title='Reach' disabled={isAllButtonVisible} onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime)} />
+                                                {isAllButtonVisible ? null : <Button title='Reach' disabled={isAllButtonVisible} onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime)} />}
                                             </View>
                                             <View style={{ marginRight: 5 }}>
-                                                <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />
+                                                {isAllButtonVisible ? null : <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />}
                                             </View>
                                             <View style={{ marginRight: 5 }}>
-                                                <Button title='' icon={{ name: 'cancel', color: 'white' }} disabled={isAllButtonVisible} onPress={
-                                                    () => { navigate('PCancle', [item.empAssignedId, count]) }
-                                                } />
+                                                {isAllButtonVisible ? null : <Button title='' icon={{ name: 'cancel', color: 'white' }} disabled={isAllButtonVisible} onPress={
+                                                    () => { navigate('PCancle', [item.empAssignedId, count, "fromD", callcount]) }
+                                                } />}
                                             </View>
-                                            <Button title='Pick-up' disabled={isAllButtonVisible} onPress={() => empPickupPress(item.empAssignedId)} />
+                                            {isAllButtonVisible ? null : <Button title='Pick-up' disabled={isAllButtonVisible} onPress={() => empPickupPress(item.empAssignedId)} />}
 
                                         </View>
                                     </View>
@@ -408,10 +421,10 @@ const ListofPD = ({ navigation }) => {
                         icon={{ name: 'event', color: 'white' }}
                     />
                     <View style={styles.btnstylebtn}>
-                        <Button title='Pick-up' onPress={() => pickupCall()} />
+                        <Button title='Pick-up' buttonStyle={{ backgroundColor: isPick }} onPress={() => pickupCall()} />
                     </View>
                     <View style={styles.btnstylebtn}>
-                        <Button title='Drop' onPress={() => DropupCall()} />
+                        <Button title='Drop' buttonStyle={{ backgroundColor: isDrop }} onPress={() => DropupCall()} />
                     </View>
                 </View>
 
@@ -442,9 +455,11 @@ const ListofPD = ({ navigation }) => {
                                         <View style={styles.buttonContainerDrop}>
                                             <Text style={styles.textnamestyle1}>{item.dropTime}</Text>
                                             <View style={{ marginRight: 10, marginLeft: 20 }}>
-                                                <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />
+                                                {/* <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} /> */}
+                                                {isAllButtonVisible ? null : <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />}
                                             </View>
-                                            <Button title='Drop' disabled={isAllButtonVisible} onPress={() => dropEmp(item.empAssignedId)} />
+                                            {/* <Button title='Drop' disabled={isAllButtonVisible} onPress={() => dropEmp(item.empAssignedId)} /> */}
+                                            {isAllButtonVisible ? null : <Button title='Drop' disabled={(false)?true:false} onPress={() => dropEmp(item.empAssignedId)} />}
                                         </View>
                                     </View>
 
@@ -492,7 +507,7 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt, setisFetching) => {
     setisFetching(isFetching => true);
     if (callcount == 1) {
         console.log('token is ', await AsyncStorage.getItem('token'));
-        tokenId=await AsyncStorage.getItem('token');
+        tokenId = await AsyncStorage.getItem('token');
         // callcount = 2;
         const headers = {
             'Content-Type': 'application/json',

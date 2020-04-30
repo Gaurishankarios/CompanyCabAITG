@@ -3,11 +3,14 @@ import { View, StyleSheet, FlatList, TouchableOpacity, Linking, AsyncStorage } f
 import { Text, Input, Button } from 'react-native-elements'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import axios from 'axios'
+import { navigate } from '../navigationRef'
 
+let rideTypePD = 0;
 const EmpUrRide = () => {
     let tokedId = 0;
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isAllButtonVisible, setisAllButtonVisible] = useState(false);
 
     const [isPick, setisPick] = useState("#03106E");
     const [isDrop, setisDrop] = useState("#03106E");
@@ -19,21 +22,20 @@ const EmpUrRide = () => {
     const alldate = month + '/' + date + '/' + year;
     const [count, setCount] = React.useState(alldate);
 
-    
 
-    let rideTypePD = 0;
-    let listn = [
-        {
-            Date: "15-12-2020",
-            Time: "17:50",
-            DriverName: "XYZ",
-            PickLocation: "location name",
-            VehicleNo: "number mention",
-            mobileNumber: "7030748391",
-            Pin: 1234,
-            Status: "Pending",
-        }
-    ]
+    
+    // let listn = [
+    //     {
+    //         Date: "15-12-2020",
+    //         Time: "17:50",
+    //         DriverName: "XYZ",
+    //         PickLocation: "location name",
+    //         VehicleNo: "number mention",
+    //         mobileNumber: "7030748391",
+    //         Pin: 1234,
+    //         Status: "Pending",
+    //     }
+    // ]
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -46,6 +48,15 @@ const EmpUrRide = () => {
         console.warn("A date has been picked: ", date);
         hideDatePicker();
 
+        let compdate = new Date()
+        if (date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }) >= compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' })) {
+            setisAllButtonVisible(isAllButtonVisible => false)
+            console.log("selected date greater or equal to today", isAllButtonVisible);
+        } else {
+            setisAllButtonVisible(isAllButtonVisible => true)
+            console.log("selected date less than to today", isAllButtonVisible);
+        }
+
         var dt = new Date(date)
         var date = dt.getDate();
         var month = dt.getMonth() + 1;
@@ -55,7 +66,12 @@ const EmpUrRide = () => {
         // var sec = dt.getSeconds()
         currentDate = month + '/' + date + '/' + year;
 
+        setisPick(isPick => "#03106E");
+        setisDrop(isDrop => "#03106E");
+
         setCount(count => currentDate)
+        setnewList(newList => []);
+
 
     };
 
@@ -75,12 +91,14 @@ const EmpUrRide = () => {
     }
 
     const pickupCall = async (typrid) => {
-        tokedId=await AsyncStorage.getItem('token');
+        setnewList(newList => []);
+        tokedId = await AsyncStorage.getItem('token');
         console.log('token is ', tokedId);
 
-        
+
         console.log("type id is :-", typrid);
         rideTypePD = typrid;
+        console.log("rideTypePD id is :-", rideTypePD);
 
         if (typrid == 1) {
             setisPick(isPick => "orange");
@@ -100,15 +118,15 @@ const EmpUrRide = () => {
 
         const param = { rideDate: count, driverAssignedId: tokedId, rideType: rideTypePD }
         console.log(param)
-        const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/driverRideList',
+        const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/employee/list',
             param,
             headers)
 
         // setisFetching(isFetching => false);
-        console.log(response.data.driverRideList);
+        console.log(response.data.employeeDetails);
         console.log(response.data);
 
-        setnewList(newList => response.data.driverRideList);
+        setnewList(newList => response.data.employeeDetails);
 
 
     }
@@ -142,12 +160,15 @@ const EmpUrRide = () => {
                     data={newList}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
+                            <TouchableOpacity
+                                style={(item.status == "Completed") ? styles.touchViewD : styles.touchView} //style={styles.touchView} 
+                                onPress={() => { navigate('') }}
+                                disabled={true} >
                                 <View >
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                                            <Text style={styles.textnamestyle}>Date:- </Text>
-                                            <Text style={styles.textnamestyle1}>{item.rideDate}</Text>
+                                            <Text style={styles.textnamestyle}>Status:- </Text>
+                                            <Text style={styles.textnamestyle1}>{item.status}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                                             <Text style={styles.textnamestyle}>OTP:</Text>
@@ -160,10 +181,10 @@ const EmpUrRide = () => {
                                             <Text style={styles.textnamestyle}>Time:- </Text>
                                             <Text style={styles.textnamestyle1}>{item.rideTime}</Text>
                                         </View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                        {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                                             <Text style={styles.textnamestyle}>Status:</Text>
                                             <Text style={styles.textnamestyle1}>{item.status}</Text>
-                                        </View>
+                                        </View> */}
                                     </View>
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
@@ -185,15 +206,17 @@ const EmpUrRide = () => {
                                         <View style={styles.buttonContainerDrop}>
                                             {/* <Text style={styles.textnamestyle1}>{item.dropTime}</Text> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            <Button title='Call' icon={{ name: 'call', color: 'white' }} onPress={() => dialCall(item.mobileNumber)}
-                                            />
+                                            {isAllButtonVisible ? null : <Button title='Call' icon={{ name: 'call', color: 'white' }} onPress={() => dialCall(item.mobileNumber)} 
+                                            disabled={(item.status == "Completed") ? true : false} /> }
                                             {/* </View> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }} //disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)}
-                                            />
+                                            {isAllButtonVisible ? null : <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }} onPress={ () => { navigate('PCancle', [item.driverAssignedId, count, "fromE",rideTypePD,item.rideId])}}
+                                              disabled={(item.status == "Completed") ? true : false} />}
                                             {/* </View> */}
                                             {/* <Button title='  Done  ' //disabled={isAllButtonVisible} //onPress={() => dropEmp(item.empAssignedId)}
                                             /> */}
+
+
                                         </View>
                                     </View>
 
@@ -250,6 +273,19 @@ const styles = StyleSheet.create({
         minHeight: 70,
         maxHeight: 180,
         justifyContent: 'center',
+        opacity: 1,
+    },
+    touchViewD: {
+        margin: 3,
+        marginHorizontal: 10,
+        // marginTop: 10,
+        padding: 10,
+        backgroundColor: 'white',
+        // height: 130,
+        minHeight: 70,
+        maxHeight: 180,
+        justifyContent: 'center',
+        opacity: 0.7,
     },
     btnStyle: {
         flex: 1,
