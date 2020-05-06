@@ -28,16 +28,20 @@ class CanclePickUp extends Component {
         let parameter = {};
         if(this.state.dataparam[2] == "fromD"){
             console.log("from dricer");
-            parameter = { empAssignedId: this.state.dataparam[0], rideDate: this.state.dataparam[1], driverAssignedId: tokenId, incidenceValue: "Hello4", rideType:this.state.dataparam[3]  }//need to change in  ListPD
+            // parameter = { empAssignedId: this.state.dataparam[0], rideDate: this.state.dataparam[1], driverAssignedId: tokenId, incidenceValue: "Hello4", rideType:this.state.dataparam[3]  }//need to change in  ListPD
+            parameter = { rideId: this.state.dataparam[4],  incidenceValue: "Hello4"  }
         }else if(this.state.dataparam[2] == "fromE"){
             console.log("from employee");
            // parameter = { empAssignedId: tokenId, rideDate: this.state.dataparam[1], driverAssignedId: this.state.dataparam[0], incidenceValue: "Hello4", rideType:this.state.dataparam[3]  }
             parameter = { rideId: this.state.dataparam[4],  incidenceValue: "Hello4"  }
+        }else if (this.state.dataparam[0] == "fromDURide") {
+            parameter = { rideId: this.state.dataparam[1],  incidenceValue: "Hello4"  }
         }
      
         console.log("in call", value, this.state.dataparam);
         // let tmp = this.state.dataparam;
         parameter.incidenceValue = value;
+        
         console.log("changed value is param", parameter.incidenceValue)
 
         
@@ -109,6 +113,14 @@ class CanclePickUp extends Component {
         );
     }
 }
+
+CanclePickUp.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
 
 
 const styles = StyleSheet.create({

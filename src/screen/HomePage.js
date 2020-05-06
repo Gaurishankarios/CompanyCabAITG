@@ -32,7 +32,7 @@ const HomePage = ({ navigation }) => {
                     // width={(200}
                     source={require('../assets/fingerprint.png')}
                     // content={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut distinctio!'}
-                    title={'Attendence'}
+                    title={'Attendance'}
                     // imageWidth={80}
                     // imageHeight={100}
                     roundedImage={false}

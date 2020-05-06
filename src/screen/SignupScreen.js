@@ -37,7 +37,7 @@ const SignupScreen =  ({ navigation }) => {
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
 
                         <Text h4
-                            h4Style={{ color: 'white' }}>Sign-in for AIT Portal</Text>
+                            h4Style={{ color: 'white' }}>AIT Portal</Text>
                     </View>
                 </Spacer>
                 <Spacer>
@@ -64,7 +64,7 @@ const SignupScreen =  ({ navigation }) => {
 
                     />
                 </Spacer>
-                {state.errorMessage ? <Text style={styles.errorMessag} > {state.errorMessage} </Text> : null}
+                {/* {state.errorMessage ? <Text style={styles.errorMessag} > {state.errorMessage} </Text> : null} */}
 
                 <Spacer>
                     <Button title="Sign-in" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }}
@@ -72,9 +72,9 @@ const SignupScreen =  ({ navigation }) => {
                 </Spacer>
                 <Spacer>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
-                        <Text style={styles.TextStyle} onPress={() => { navigation.navigate('Forget') }}> Forget Password</Text>
+                        <Text style={styles.TextStyle} onPress={() => { navigation.navigate('Forget'), setPassword(password => '') }}> Forget Password</Text>
 
-                        <Text style={styles.TextStyle} onPress={() => { navigation.navigate('NewPass') }}> Set New Password</Text>
+                        <Text style={styles.TextStyle} onPress={() => { navigation.navigate('NewPass'), setPassword(password => '') }}> Set New Password</Text>
                     </View>
                 </Spacer>
             </View>

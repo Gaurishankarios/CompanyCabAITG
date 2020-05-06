@@ -48,10 +48,11 @@ const DScheduleNewRide = ({navigation}) => {
 
         let sdate= month + '/' + date + '/' + year;
         var hour = dt.getHours()
-        var min = dt.getMinutes()
-        var sec = dt.getSeconds()
+        // var min = dt.getMinutes()
+        var min = (dt.getMinutes()<10 ? '0' : '') + dt.getMinutes()
+        // var sec = dt.getSeconds()
         currentDate = month + '/' + date + '/' + year + ' Time:-' + hour + ':' + min;
-        let timepass = hour + ':' + min + ':' + sec;
+        let timepass = hour + ':' + min;
         console.log('date and time is ', currentDate)
         console.log("time is :-", timepass)
 
@@ -144,6 +145,7 @@ const DScheduleNewRide = ({navigation}) => {
                 <DateTimePickerModal
                     isVisible={isDatePickerVisible}
                     mode="datetime"
+                    // minDate={new Date()}
                     onConfirm={handleConfirm}
                     onCancel={hideDatePicker}
 

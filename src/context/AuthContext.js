@@ -62,15 +62,15 @@ const signup = (dispatch) => {
                 dispatch({ type: 'sigin', payload: employeeId });
                 navigate('Home');
             } else {
-                alert('Something went wrong with signIn');
-                dispatch({ type: 'add_error', payload: 'Something went wrong with signUp' });
+                alert('Please enter valid credentials');
+                dispatch({ type: 'add_error', payload: 'Something went wrong with signIn' });
             }
 
             //navigate to main flow
 
         } catch (err) {
             console.log('errror here...............', err)
-            dispatch({ type: 'add_error', payload: 'Something went wrong with signUp' });
+            dispatch({ type: 'add_error', payload: 'Something went wrong with signIn' });
             // navigate('mainFlow')
             alert('error');
         }

@@ -3,11 +3,13 @@ import { View, StyleSheet, FlatList, TouchableOpacity, Linking, AsyncStorage } f
 import { Text, Input, Button } from 'react-native-elements'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import axios from 'axios'
+import { navigate } from '../navigationRef'
 
 const DriverUrRide = () => {
     let tokedId = 0;
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isAllButtonVisible, setisAllButtonVisible] = useState(false);
 
     const [isPick, setisPick] = useState("#03106E");
     const [isDrop, setisDrop] = useState("#03106E");
@@ -46,6 +48,15 @@ const DriverUrRide = () => {
         console.warn("A date has been picked: ", date);
         hideDatePicker();
 
+        let compdate = new Date()
+        if (date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }) >= compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' })) {
+            setisAllButtonVisible(isAllButtonVisible => false)
+            console.log("selected date greater or equal to today", isAllButtonVisible);
+        } else {
+            setisAllButtonVisible(isAllButtonVisible => true)
+            console.log("selected date less than to today", isAllButtonVisible);
+        }
+
         var dt = new Date(date)
         var date = dt.getDate();
         var month = dt.getMonth() + 1;
@@ -56,6 +67,7 @@ const DriverUrRide = () => {
         currentDate = month + '/' + date + '/' + year;
 
         setCount(count => currentDate)
+        setnewList(newList => []);
 
     };
 
@@ -88,9 +100,11 @@ const DriverUrRide = () => {
             // setisDrop(isDrop => "#03106E");
             setisPick(isPick => "orange");
             setisDrop(isDrop => "#03106E");
+            setnewList(newList => []);
         } else if (typrid == 2) {
             setisPick(isPick => "#03106E");
             setisDrop(isDrop => "orange");
+            setnewList(newList => []);
         }
 
 
@@ -141,7 +155,7 @@ const DriverUrRide = () => {
             </View>
 
             <View>
-                <FlatList style={{ marginBottom: 120 }}
+                <FlatList style={{ marginBottom: 130 }}
                     data={newList}
                     renderItem={({ item }) => {
                         return (
@@ -150,8 +164,10 @@ const DriverUrRide = () => {
                                 <View>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                                            <Text style={styles.textnamestyle}>Date:- </Text>
-                                            <Text style={styles.textnamestyle1}>{item.rideDate}</Text>
+                                            {/* <Text style={styles.textnamestyle}>Date:- </Text>
+                                            <Text style={styles.textnamestyle1}>{item.rideDate}</Text> */}
+                                             <Text style={styles.textnamestyle}>Status:</Text>
+                                            <Text style={styles.textnamestyle1}>{item.status}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                                             <Text style={styles.textnamestyle}>OTP:</Text>
@@ -165,8 +181,8 @@ const DriverUrRide = () => {
                                             <Text style={styles.textnamestyle1}>{item.rideTime}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                                            <Text style={styles.textnamestyle}>Status:</Text>
-                                            <Text style={styles.textnamestyle1}>{item.status}</Text>
+                                            {/* <Text style={styles.textnamestyle}>Status:</Text>
+                                            <Text style={styles.textnamestyle1}>{item.status}</Text> */}
                                         </View>
                                     </View>
 
@@ -189,12 +205,13 @@ const DriverUrRide = () => {
                                         <View style={styles.buttonContainerDrop}>
                                             {/* <Text style={styles.textnamestyle1}>{item.dropTime}</Text> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            <Button title='Call' icon={{ name: 'call', color: 'white' }} onPress={() =>   dialCall(item.mobileNumber) }
-                                            />
+                                            {isAllButtonVisible ? null : <Button title='Call' icon={{ name: 'call', color: 'white' }} 
+                                            onPress={() =>   dialCall(item.mobileNumber) } 
+                                        /> }
                                             {/* </View> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }} //disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)}
-                                            />
+                                            {isAllButtonVisible ? null : <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }}  onPress={() => navigate('PCancle', [ "fromDURide", item.rideId])}// 
+                                            />}
                                             {/* </View> */}
                                             {/* <Button title='  Done  ' //disabled={isAllButtonVisible} //onPress={() => dropEmp(item.empAssignedId)}
                                             /> */}
@@ -252,7 +269,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         // height: 130,
         minHeight: 70,
-        maxHeight: 180,
+        maxHeight: 200,
         justifyContent: 'center',
     },
     btnStyle: {
@@ -278,6 +295,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 40,
         marginTop: 10,
+        marginBottom:5,
         flexDirection: 'row',
         justifyContent: 'space-around',
         paddingHorizontal: 5,

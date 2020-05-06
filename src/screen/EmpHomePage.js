@@ -42,13 +42,13 @@ const EmpHomePage = () => {
                                 color: "white",
                                 fontSize: 16,
                             }}
-                            onPress={() => { navigate('') }}
+                            onPress={() => { navigate('Rides') }}
                         />
                     </View>
                 </View>
             </TouchableOpacity>
 
-    
+
 
             <TouchableOpacity style={styles.touchView} onPress={() => { navigate('EmpSchedule') }}>
                 <View style={styles.cardstyle}>
@@ -61,6 +61,7 @@ const EmpHomePage = () => {
                     />
                     <View style={{ width: ((Dimensions.get("window").width / 2) - 5) }}>
                         <Button title="Schedule New Ride" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }}
+                            onPress={() => { navigate('EmpSchedule') }}
                             titleStyle={{
                                 color: "white",
                                 fontSize: 16,
@@ -80,11 +81,12 @@ const EmpHomePage = () => {
                         width={(Dimensions.get("window").width / 2) - 40}
                     />
                     <View style={{ width: ((Dimensions.get("window").width / 2) - 5) }}>
-                        <Button title="Add Ola/Uber Bill" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }} 
-                         titleStyle={{
-                            color: "white",
-                            fontSize: 16,
-                        }}
+                        <Button title="Add Ola/Uber Bill" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }}
+                            onPress={() => { navigate('Upload') }}
+                            titleStyle={{
+                                color: "white",
+                                fontSize: 16,
+                            }}
                         />
                     </View>
                 </View>

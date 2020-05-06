@@ -113,6 +113,9 @@ const ListofPD = ({ navigation }) => {
         // if (typrid == 1) {
             setisPick(isPick => "orange");
             setisDrop(isDrop => "#03106E");
+
+            setlistn(listn => []);
+            setdriven(driven => []);
         // } else if (typrid == 2) {
            
         // }
@@ -122,6 +125,10 @@ const ListofPD = ({ navigation }) => {
     const DropupCall = () => {
         setisPick(isPick => "#03106E");
         setisDrop(isDrop => "orange");
+
+        setlistn(listn => []);
+        setdriven(driven => []);
+
         callcount = 2;
         console.log('i am in drop method i will pass');
         RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
@@ -158,7 +165,7 @@ const ListofPD = ({ navigation }) => {
 
     }
 
-    const reachEmpLoc = async (eid, ptime) => {
+    const reachEmpLoc = async (eid, ptime, rideId) => {
         setisFetching(isFetching => true);
         console.log(eid);
 
@@ -166,18 +173,19 @@ const ListofPD = ({ navigation }) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const param = { empAssignedId: eid, rideDate: count, driverAssignedId: tokenId, incidenceId: 1 }
+        // const param = { empAssignedId: eid, rideDate: count, driverAssignedId: tokenId, incidenceId: 1 }
+        const param = { rideId: rideId, incidenceValue: 1 }
 
         // console.log(insidnt.incidenceList[0].title);
 
         var hours = new Date().getHours(); //Current Hours
         var min = new Date().getMinutes(); //Current Minutes
-        min = min > 9 ? min : '0' + min;
+        min = min > 9 ? min : '0' + min;  //var min = (dt.getMinutes()<10 ? '0' : '') + dt.getMinutes() 
         var sec = new Date().getSeconds(); //Current Seconds
         console.log(hours + ':' + min)
         let ctime = (hours + ':' + min)
 
-
+        console.log("ptime is ", ptime);
 
         if (ptime < ctime) {
             setisFetching(isFetching => false);
@@ -249,7 +257,8 @@ const ListofPD = ({ navigation }) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const param = { employeeId: id, code: pin }
+        const param = { empAssignedId: id, otp: pin, rideDate: count, driverAssignedId: tokenId }
+        console.log("param is ", param)
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/code',
             param,
             headers)
@@ -368,14 +377,14 @@ const ListofPD = ({ navigation }) => {
                                     <View style={styles.btnStyle}>
                                         <View style={styles.buttonContainer} >
                                             <View style={{ marginRight: 5 }}>
-                                                {isAllButtonVisible ? null : <Button title='Reach' disabled={isAllButtonVisible} onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime)} />}
+                                                {isAllButtonVisible ? null : <Button title='Reach' disabled={isAllButtonVisible} onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime, item.rideId)} />}
                                             </View>
                                             <View style={{ marginRight: 5 }}>
                                                 {isAllButtonVisible ? null : <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />}
                                             </View>
                                             <View style={{ marginRight: 5 }}>
                                                 {isAllButtonVisible ? null : <Button title='' icon={{ name: 'cancel', color: 'white' }} disabled={isAllButtonVisible} onPress={
-                                                    () => { navigate('PCancle', [item.empAssignedId, count, "fromD", callcount]) }
+                                                    () => { navigate('PCancle', [item.empAssignedId, count, "fromD", callcount, item.rideId]) }
                                                 } />}
                                             </View>
                                             {isAllButtonVisible ? null : <Button title='Pick-up' disabled={isAllButtonVisible} onPress={() => empPickupPress(item.empAssignedId)} />}

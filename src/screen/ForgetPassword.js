@@ -41,7 +41,7 @@ const ForgetPassword = ({ navigation }) => {
             <Spacer>
                 <Button title="Send OTP on E-mail" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }} onPress={() => this.showalert(email, setisFetching)} />
             </Spacer>
-            <Text style={{ color: 'grey', padding: 15 }} >Enter your email to receive password reset 4 digit OTP</Text>
+            <Text style={{ color: 'grey', padding: 15 }} >Please enter your Email Id to receive OTP</Text>
             {/* <Spacer>
                 <Button title="Reset password" onPress={() => navigation.navigate('NewPass')} />
             </Spacer> */}
@@ -51,6 +51,14 @@ const ForgetPassword = ({ navigation }) => {
     )
 
 
+};
+
+ForgetPassword.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
 };
 
 showalert = async (email, setisFetching) => {

@@ -97,7 +97,7 @@ class ReachLate extends Component {
             <View style={styles.container}>
                 <Dropdown
                     containerStyle={styles.dropdown}
-                    label='Select Insidence or Reason'
+                    label='Select Incidence or Reason'
                     data={this.state.nameList}
                     onChangeText={(value) => this.finalcallreach(value)}
                 />
@@ -105,6 +105,14 @@ class ReachLate extends Component {
         );
     }
 }
+
+ReachLate.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
 
 
 const styles = StyleSheet.create({

@@ -4,7 +4,7 @@ import Spacer from '../components/Spacer'
 import { Text, Input, Button } from 'react-native-elements'
 import { navigate } from '../navigationRef'
 import { CardViewWithIcon, CardViewWithImage } from "react-native-simple-card-view";
-import * as Svg from 'react-native-svg';
+// import * as Svg from 'react-native-svg';
 // import carSVG from "../assets/car3"
 
 

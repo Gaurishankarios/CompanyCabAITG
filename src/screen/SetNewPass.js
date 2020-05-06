@@ -71,13 +71,13 @@ const SetNewPass = ({ navigation }) => {
                     />
                 </Spacer>
                 {/* <Spacer> */}
-                <PassMeter
+                {/* <PassMeter
                     showLabels
                     password={newpass}
                     maxLength={MAX_LEN}
                     minLength={MIN_LEN}
                     labels={PASS_LABELS}
-                />
+                /> */}
                 {/* </Spacer> */}
                 <Spacer>
                     <Button title="Reset Password" buttonStyle={{ backgroundColor: '#03106E', padding: 15 }}
@@ -98,7 +98,8 @@ servercall = async (empId, oneTime, newpass, setisFetching) => {
     if (newpass.indexOf(' ') !== -1) {
         alert("White Space not allowed in password ");
     } else if (newpass.length <= 3) {
-        alert("password must contains 4 characters")
+        // alert("password must contains 4 characters")
+        alert("Please enter valid credentials")
     } else {
 
 
@@ -131,7 +132,7 @@ servercall = async (empId, oneTime, newpass, setisFetching) => {
                 setisFetching(isFetching => false);
                 Alert.alert(
                     'Failure',
-                    'Password reset denied',
+                    'Please enter valid credentials', //'Password reset denied',
                     [
                         { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
                     ],
@@ -144,6 +145,14 @@ servercall = async (empId, oneTime, newpass, setisFetching) => {
         }
     }
 }
+
+SetNewPass.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
 
 // SetNewPass.navigationOptions = () => {
 //     return {

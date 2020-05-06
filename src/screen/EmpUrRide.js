@@ -156,7 +156,7 @@ const EmpUrRide = () => {
             </View>
 
             <View>
-                <FlatList style={{ marginBottom: 120 }}
+                <FlatList style={{ marginBottom: 130 }}
                     data={newList}
                     renderItem={({ item }) => {
                         return (
