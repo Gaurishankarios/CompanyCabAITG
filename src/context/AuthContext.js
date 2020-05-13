@@ -52,13 +52,14 @@ const signup = (dispatch) => {
             );
             // const response = await axios.post('http://192.168.1.185:8080/taxicab/login/validate', param, headers)
             console.log(response.data);
-            console.log(response.data.status)
+            console.log(response.data.roleName)
 
             // await AsyncStorage.getItem('token');
             // console.log('data is', await AsyncStorage.getItem('token'))
             // dispatch({ type: 'signup', payload: response.data.token });
             if (response.data.status == true) {
                 await AsyncStorage.setItem('token', employeeId);
+                await AsyncStorage.setItem('roleName', response.data.roleName);
                 dispatch({ type: 'sigin', payload: employeeId });
                 navigate('Home');
             } else {
@@ -87,6 +88,7 @@ const signin = (dispatch) => {
 const signout = (dispatch) => {
     return async() => {
         //try to signin
+        // alert("Thanks for using AIT mobile app")
         await AsyncStorage.removeItem('token');
         dispatch({ type: 'signout' })
         navigate('loginFlow')

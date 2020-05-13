@@ -4,9 +4,13 @@ import { Text, Input, Button } from 'react-native-elements'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import axios from 'axios'
 import { navigate } from '../navigationRef'
+import { NavigationEvents } from 'react-navigation';
+
+let checkwhichride = 0;
 
 const DriverUrRide = () => {
     let tokedId = 0;
+    
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isAllButtonVisible, setisAllButtonVisible] = useState(false);
@@ -21,7 +25,7 @@ const DriverUrRide = () => {
     const alldate = month + '/' + date + '/' + year;
     const [count, setCount] = React.useState(alldate);
 
-    
+
 
     let rideTypePD = 0;
     let listn = [
@@ -73,7 +77,7 @@ const DriverUrRide = () => {
 
     const dialCall = (mobileNo) => {
         console.log(mobileNo);
-        
+
         // let phoneNumber = '';
         if (Platform.OS === 'android') {
             phoneNumber = `tel:${mobileNo}`;
@@ -88,10 +92,11 @@ const DriverUrRide = () => {
     }
 
     const pickupCall = async (typrid) => {
-        tokedId=await AsyncStorage.getItem('token');
+        tokedId = await AsyncStorage.getItem('token');
         console.log('token is ', tokedId);
-
         
+        checkwhichride = typrid;
+
         console.log("type id is :-", typrid);
         rideTypePD = typrid;
 
@@ -144,6 +149,9 @@ const DriverUrRide = () => {
                     onCancel={hideDatePicker}
 
                 />
+
+                <NavigationEvents onDidFocus={() => pickupCall(checkwhichride)} />
+
                 <View style={styles.btnstylebtn}>
                     <Button title='Pick-up' buttonStyle={{ backgroundColor: isPick }} onPress={() => pickupCall(1)}
                     />
@@ -159,14 +167,14 @@ const DriverUrRide = () => {
                     data={newList}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity  style={styles.touchView} //onPress={() => { navigate('') }}
+                            <TouchableOpacity style={styles.touchView} //onPress={() => { navigate('') }}
                             >
                                 <View>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                                             {/* <Text style={styles.textnamestyle}>Date:- </Text>
                                             <Text style={styles.textnamestyle1}>{item.rideDate}</Text> */}
-                                             <Text style={styles.textnamestyle}>Status:</Text>
+                                            <Text style={styles.textnamestyle}>Status:</Text>
                                             <Text style={styles.textnamestyle1}>{item.status}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
@@ -205,12 +213,12 @@ const DriverUrRide = () => {
                                         <View style={styles.buttonContainerDrop}>
                                             {/* <Text style={styles.textnamestyle1}>{item.dropTime}</Text> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            {isAllButtonVisible ? null : <Button title='Call' icon={{ name: 'call', color: 'white' }} 
-                                            onPress={() =>   dialCall(item.mobileNumber) } 
-                                        /> }
+                                            {isAllButtonVisible ? null : <Button title='Call' icon={{ name: 'call', color: 'white' }}
+                                                onPress={() => dialCall(item.mobileNumber)}
+                                            />}
                                             {/* </View> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            {isAllButtonVisible ? null : <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }}  onPress={() => navigate('PCancle', [ "fromDURide", item.rideId])}// 
+                                            {isAllButtonVisible ? null : <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }} onPress={() => navigate('PCancle', ["fromDURide", item.rideId])}// 
                                             />}
                                             {/* </View> */}
                                             {/* <Button title='  Done  ' //disabled={isAllButtonVisible} //onPress={() => dropEmp(item.empAssignedId)}
@@ -295,7 +303,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 40,
         marginTop: 10,
-        marginBottom:5,
+        marginBottom: 5,
         flexDirection: 'row',
         justifyContent: 'space-around',
         paddingHorizontal: 5,

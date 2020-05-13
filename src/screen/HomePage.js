@@ -6,6 +6,8 @@ import CardView from 'react-native-cardview'
 import { color } from 'react-native-reanimated';
 import { navigate } from '../navigationRef'
 import { CardViewWithIcon, CardViewWithImage } from "react-native-simple-card-view";
+import { AsyncStorage } from 'react-native'
+
 
 
 
@@ -23,6 +25,24 @@ const HomePage = ({ navigation }) => {
         elevation: 5,
         width: (Dimensions.get("window").width / 2) - 20
     };
+
+
+const transportcardPress = async({navigation}) => {
+
+    console.log("I am inside transport")
+    // navigate('Role')
+    console.log('token is ', await AsyncStorage.getItem('roleName'));
+    let roleName = await AsyncStorage.getItem('roleName');  //ROLE_DRIVER
+    if(roleName=="ROLE_DRIVER"){
+        navigate('DriverHome') // Role
+    }else if(roleName=='ROLE_EMPLOYEE'){
+        navigate('HomeEmployee')
+    }
+    
+
+}
+
+
     return (
 
 
@@ -51,7 +71,7 @@ const HomePage = ({ navigation }) => {
                     roundedImage={false}
                     style={miniCardStyle}
                     width={(Dimensions.get("window").width / 2) - 20}
-                    onPress={() => { navigate('Role') }}
+                    onPress={ transportcardPress }
                 />
                 <CardViewWithImage
                     // width={(200}

@@ -19,6 +19,7 @@ const DScheduleNewRide = ({navigation}) => {
     const [Reason, setReason] = useState('')
     const [fromLoc, setfromLoc] = useState('')
     const [toLoc, settoLoc] = useState('')
+    const [isValideDate, setisValideDate] = useState(false);
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -59,12 +60,27 @@ const DScheduleNewRide = ({navigation}) => {
         setCount(count => currentDate)
         settimecall(timecall => timepass)
         setdatecall(datecall => sdate)
+
+        let compdate = new Date()
+        if (dt.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }) >= compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' })) {
+            setisValideDate(isValideDate => true)
+            console.log("selected date greater or equal to today");
+        } else {
+            setisValideDate(isValideDate => false)
+            console.log("selected date less than to today");
+        }
+
+       
     };
 
     let data = [{ value: 'Pick-up', }, { value: 'Drop', }];
-    let dataReason = [{ value: 'Emergency', }, { value: 'Official', }];
+    let dataReason = [{ value: 'Medical Emergency', }, { value: 'Client request', }, {value: 'Weekly Schedule'}, {value: 'Other Offical/Misc. work'}];
 
-    //Time  picker 
+    //Time  picker
+    //  Medical Emergency 
+// Client request
+// Weekly Schedule
+// Other Offical/Misc. work
 
     const selectNewRideCall = async () => {
         tokedId=await AsyncStorage.getItem('token');
@@ -83,7 +99,11 @@ const DScheduleNewRide = ({navigation}) => {
         if(fromLoc==undefined || fromLoc=="" || toLoc==undefined || toLoc=="" || timecall==undefined || timecall=="" || rideType<1 || Reason==undefined || Reason=="" ){
             console.log("Do not call");
             alert('Select Date and time and fill all field')
-        }else{
+        }
+        else if(isValideDate==false){
+            alert("Please select valid date")
+        }
+        else{
 
             const param = {
                 pickLocationName: fromLoc,

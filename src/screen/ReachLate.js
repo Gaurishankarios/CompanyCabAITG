@@ -16,7 +16,7 @@ class ReachLate extends Component {
         }
     }
 
-    finalcallreach = async(value) => {
+    finalcallreach = async (value) => {
 
         const headers = {
             'Content-Type': 'application/json',
@@ -27,48 +27,56 @@ class ReachLate extends Component {
         tmp.incidenceValue = value;
         console.log("changed value is", tmp.incidenceValue)
 
-        
+
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/reach',
-                tmp,
-                headers)
+            tmp,
+            headers)
 
-            let coderespo = response.data.status;
-            console.log(coderespo);
+        let coderespo = response.data.status;
+        console.log(coderespo);
 
-            if (coderespo == true) {
-                this.props.navigation.pop()
-                // Alert.alert(
-                //     'Reached',
-                //     'Reached at location with insidence',
-                //     [
-                //         { text: 'Ok', onPress: () => {this.props.navigation.pop()} },
-                //     ],
-                //     { cancelable: true }
-                // )
-               
-            } else {
-                alert("Fail");
-            }
+        if (coderespo == true) {
+            this.props.navigation.pop()
+            // {refresh:{}}
+
+            // this.props.navigation.pop({refresh: {pickupCall}})
+            // Alert.alert(
+            //     'Reached',
+            //     'Reached at location with insidence',
+            //     [
+            //         { text: 'Ok', onPress: () => {this.props.navigation.pop()} },
+            //     ],
+            //     { cancelable: true }
+            // )
+
+        } else {
+            alert("Fail");
+        }
     }
 
     componentDidMount() {
-        axios.get(`http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/incidencelist`)
-            .then(res => {
-                const nameList1 = res.data.incidenceList;
-                let data = [];
+        // axios.get(`http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/incidencelist`)
+        //     .then(res => {
+        //         const nameList1 = res.data.incidenceList;
+        //         let data = [];
 
-                // this.setState({ nameList });
-                // console.log(res.data.incidenceList);
-                for (let i = 0; i < nameList1.length; i++) {
-                    let obj = {};
-                    // data.push()
-                    obj["value"] = nameList1[i].title;
-                    data.push(obj);
-                    // console.log("undert loop", data);
-                }
-                this.setState({ nameList: data });
-                // console.log(data);
-            })
+        //         // this.setState({ nameList });
+        //         // console.log(res.data.incidenceList);
+        //         for (let i = 0; i < nameList1.length; i++) {
+        //             let obj = {};
+        //             // data.push()
+        //             obj["value"] = nameList1[i].title;
+        //             data.push(obj);
+        //             // console.log("undert loop", data);
+        //         }
+        //         this.setState({ nameList: data });
+        //         // console.log(data);
+        //     })
+        //Driver arrived late
+        // Stuck in Traffic
+        // Vehicle break-down
+        let dataReason = [{ value: 'Driver arrived late', }, { value: 'Stuck in Traffic', }, { value: 'Vehicle break-down' }];
+        this.setState({ nameList: dataReason });
 
         const { navigate } = this.props.navigation;
 

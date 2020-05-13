@@ -72,7 +72,7 @@ const SignupScreen =  ({ navigation }) => {
                 </Spacer>
                 <Spacer>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
-                        <Text style={styles.TextStyle} onPress={() => { navigation.navigate('Forget'), setPassword(password => '') }}> Forget Password</Text>
+                        <Text style={styles.TextStyle} onPress={() => { navigation.navigate('Forget'), setPassword(password => '') }}> Forgot Password</Text>
 
                         <Text style={styles.TextStyle} onPress={() => { navigation.navigate('NewPass'), setPassword(password => '') }}> Set New Password</Text>
                     </View>

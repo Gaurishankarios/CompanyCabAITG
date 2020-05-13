@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { View, StyleSheet, FlatList, TouchableOpacity, AsyncStorage, Linking, Platform, Alert } from 'react-native'
 // import { AsyncStorage } from 'react-native'
 import Spacer from '../components/Spacer'
@@ -13,6 +13,8 @@ import { HeaderTitle } from 'react-navigation-stack';
 import FetchingIndicator from 'react-native-fetching-indicator'
 import { bool } from 'prop-types';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+import { useIsFocused } from '@react-navigation/native'
+import { NavigationEvents } from 'react-navigation';
 
 
 // import DialogInput from 'react-native-dialog-input-custom';
@@ -23,6 +25,7 @@ let tmpDrive = [];
 let callcount = 1;
 let insidentno = 1;
 let tokenId = 0;
+let refreshdata = 0;
 
 
 const ListofPD = ({ navigation }) => {
@@ -33,6 +36,7 @@ const ListofPD = ({ navigation }) => {
 
     const [driven, setdriven] = React.useState();
     const [empID, setempID] = React.useState();
+    const [rideID, setrideID] = React.useState();
     const [insidnt, setinsidnt] = React.useState();
 
     const [isDialogVisible, setisDialogVisible] = useState(false);
@@ -43,6 +47,7 @@ const ListofPD = ({ navigation }) => {
     const [isPick, setisPick] = useState("#03106E");
     const [isDrop, setisDrop] = useState("#03106E");
 
+    
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -78,7 +83,7 @@ const ListofPD = ({ navigation }) => {
         let compdate = new Date()
         console.log("current date is ", compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }))
 
-        if (date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }) >= compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' })) {
+        if (date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }) == compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' })) {
             // setisButtonVisible(true);
             setisAllButtonVisible(isAllButtonVisible => false)
             console.log("selected date greater or equal to today", isAllButtonVisible);
@@ -88,7 +93,7 @@ const ListofPD = ({ navigation }) => {
             console.log("selected date less than to today", isAllButtonVisible);
         }
         setisPick(isPick => "#03106E");
-            setisDrop(isDrop => "#03106E");
+        setisDrop(isDrop => "#03106E");
 
         setlistn(listn => []);
         setdriven(driven => []);
@@ -111,15 +116,16 @@ const ListofPD = ({ navigation }) => {
 
     const pickupCall = () => {
         // if (typrid == 1) {
-            setisPick(isPick => "orange");
-            setisDrop(isDrop => "#03106E");
+        setisPick(isPick => "orange");
+        setisDrop(isDrop => "#03106E");
 
-            setlistn(listn => []);
-            setdriven(driven => []);
+        setlistn(listn => []);
+        setdriven(driven => []);
         // } else if (typrid == 2) {
-           
+
         // }
         callcount = 1;
+        refreshdata = 1;
         RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
     }
     const DropupCall = () => {
@@ -133,21 +139,24 @@ const ListofPD = ({ navigation }) => {
         console.log('i am in drop method i will pass');
         RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
     }
-    const empPickupPress = (eid) => {
+    const empPickupPress = (eid, idride) => {
         setisDialogVisible(true);
         setempID(empID => eid);
+        setrideID(rideID => idride)
         console.log(eid);
+        console.log(idride);
     }
 
-    const dropEmp = async (emid) => {
+    const dropEmp = async (emid, dropid) => {
         setisFetching(isFetching => true);
 
         const headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const param = { empAssignedId: emid, rideDate: count, driverAssignedId: tokenId }
-
+        // const param = { empAssignedId: emid, rideDate: count, driverAssignedId: tokenId }
+        const param = { rideId: dropid }
+        console.log("dropid is ", dropid)
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/dropreach',
             param,
             headers)
@@ -156,8 +165,12 @@ const ListofPD = ({ navigation }) => {
         console.log(coderespo);
 
         if (coderespo == true) {
+            setlistn(listn => []);
+            setdriven(driven => []);
+            
             setisFetching(isFetching => false);
             alert("Reached at location");
+            RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
         } else {
             setisFetching(isFetching => false);
             alert("Fail");
@@ -243,6 +256,9 @@ const ListofPD = ({ navigation }) => {
 
         if (coderespo == true) {
             alert("Reached at location");
+            setlistn(listn => []);
+            setdriven(driven => []);
+            RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
         } else {
             alert("Fail");
         }
@@ -257,7 +273,8 @@ const ListofPD = ({ navigation }) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const param = { empAssignedId: id, otp: pin, rideDate: count, driverAssignedId: tokenId }
+        // const param = { empAssignedId: id, otp: pin, rideDate: count, driverAssignedId: tokenId }
+        const param = { rideId: rideID, otp: pin }
         console.log("param is ", param)
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/code',
             param,
@@ -269,6 +286,12 @@ const ListofPD = ({ navigation }) => {
         if (coderespo == true) {
             console.log('condition true');
             alert("Success");
+            // if(callcount==1){
+
+            // }else if(callcount==2){}
+            setlistn(listn => []);
+            setdriven(driven => []);
+            RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
         } else {
             console.log('condition false');
 
@@ -307,6 +330,8 @@ const ListofPD = ({ navigation }) => {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', minwidth: '90%', }} >
 
 
+                    {/* <NavigationEvents onDidFocus={() => refreshdata==0 ? pickupCall() : null} /> */}
+                    <NavigationEvents onDidFocus={() =>  pickupCall()} />
                     <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -325,7 +350,7 @@ const ListofPD = ({ navigation }) => {
                         <Button title='Pick-up' buttonStyle={{ backgroundColor: isPick }} onPress={() => pickupCall()} />
                     </View>
                     <View style={styles.btnstylebtn}>
-                        <Button title='Drop' buttonStyle={{ backgroundColor: isDrop }}  onPress={() => DropupCall()} />
+                        <Button title='Drop' buttonStyle={{ backgroundColor: isDrop }} onPress={() => DropupCall()} />
                     </View>
                 </View>
 
@@ -358,7 +383,8 @@ const ListofPD = ({ navigation }) => {
                     data={listn}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
+                            <TouchableOpacity style={(item.status == "Completed") ? styles.touchViewD : styles.touchView}//style={styles.touchView}
+                                onPress={() => { navigate('') }}>
                                 <View>
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Text style={styles.textnamestyle}> {item.empAssignedName} </Text>
@@ -369,6 +395,11 @@ const ListofPD = ({ navigation }) => {
                                         <Text style={styles.textnamestyle1}>{item.pickTime}</Text>
                                     </View>
 
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
+                                        <Text style={styles.textnamestyle}> Logsheet Number </Text>
+                                        <Text style={styles.textnamestyle1}> xxxx </Text>
+                                    </View>
+
                                     {/* - {item.pickLocationName} */}
 
 
@@ -377,17 +408,17 @@ const ListofPD = ({ navigation }) => {
                                     <View style={styles.btnStyle}>
                                         <View style={styles.buttonContainer} >
                                             <View style={{ marginRight: 5 }}>
-                                                {isAllButtonVisible ? null : <Button title='Reach' disabled={isAllButtonVisible} onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime, item.rideId)} />}
+                                                {isAllButtonVisible ? null : <Button title='Reach' disabled={(item.status == "Completed") ? true : false} onPress={() => reachEmpLoc(item.empAssignedId, item.pickTime, item.rideId)} />}
                                             </View>
                                             <View style={{ marginRight: 5 }}>
                                                 {isAllButtonVisible ? null : <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />}
                                             </View>
                                             <View style={{ marginRight: 5 }}>
-                                                {isAllButtonVisible ? null : <Button title='' icon={{ name: 'cancel', color: 'white' }} disabled={isAllButtonVisible} onPress={
+                                                {isAllButtonVisible ? null : <Button title='' icon={{ name: 'cancel', color: 'white' }} disabled={(item.status == "Completed") ? true : false} onPress={
                                                     () => { navigate('PCancle', [item.empAssignedId, count, "fromD", callcount, item.rideId]) }
                                                 } />}
                                             </View>
-                                            {isAllButtonVisible ? null : <Button title='Pick-up' disabled={isAllButtonVisible} onPress={() => empPickupPress(item.empAssignedId)} />}
+                                            {isAllButtonVisible ? null : <Button title='Pick-up' disabled={(item.status == "Completed") ? true : false} onPress={() => empPickupPress(item.empAssignedId, item.rideId)} />}
 
                                         </View>
                                     </View>
@@ -453,22 +484,29 @@ const ListofPD = ({ navigation }) => {
                     data={listn}
                     renderItem={({ item }) => {
                         return (
-                            <TouchableOpacity style={styles.touchView} onPress={() => { navigate('') }}>
+                            <TouchableOpacity style={(item.status == "Completed") ? styles.touchViewD : styles.touchView} //style={styles.touchView} 
+                                onPress={() => { navigate('') }}>
                                 <View >
                                     {/* <Text style={styles.textnamestyle}> {item.empAssignedName} - {item.dropLocationName}</Text> */}
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <Text style={styles.textnamestyle}> {item.empAssignedName} </Text>
                                         <Text style={styles.textnamestyle}>{item.dropLocationName}</Text>
                                     </View>
+
+                                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 10 }}>
+                                        <Text style={styles.textnamestyle}> Logsheet Number </Text>
+                                        <Text style={styles.textnamestyle1}> xxxx </Text>
+                                    </View>
+
                                     <View style={styles.btnStyle}>
                                         <View style={styles.buttonContainerDrop}>
                                             <Text style={styles.textnamestyle1}>{item.dropTime}</Text>
                                             <View style={{ marginRight: 10, marginLeft: 20 }}>
                                                 {/* <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} /> */}
-                                                {isAllButtonVisible ? null : <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} />}
+                                                {isAllButtonVisible ? null : <Button title='' icon={{ name: 'call', color: 'white' }} disabled={(item.status == "Completed") ? true : false} onPress={() => dialCall(item.mobileNumber)} />}
                                             </View>
                                             {/* <Button title='Drop' disabled={isAllButtonVisible} onPress={() => dropEmp(item.empAssignedId)} /> */}
-                                            {isAllButtonVisible ? null : <Button title='Drop' disabled={(false)?true:false} onPress={() => dropEmp(item.empAssignedId)} />}
+                                            {isAllButtonVisible ? null : <Button title='Drop' disabled={(item.status == "Completed") ? true : false} onPress={() => dropEmp(item.empAssignedId, item.rideId)} />}
                                         </View>
                                     </View>
 
@@ -546,6 +584,7 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt, setisFetching) => {
         // console.log(setdriven);
     }
     else if (callcount == 2) {
+        tokenId = await AsyncStorage.getItem('token');
         console.log('i am in drop call');
         tmpstatus = [];
         tmpDrive = [];
@@ -557,6 +596,7 @@ RestCall = async (setlistn, cdate, setdriven, setinsidnt, setisFetching) => {
         }
         // cdate = '3/18/2020'
         const param = { rideDate: cdate, empAssignedId: tokenId }
+        console.log("param is ", param)
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/driver/droplist',
             param,
             headers)
@@ -609,6 +649,19 @@ const styles = StyleSheet.create({
         minHeight: 70,
         maxHeight: 150,
         justifyContent: 'center',
+        opacity: 1,
+    },
+    touchViewD: {
+        margin: 3,
+        marginHorizontal: 10,
+        // marginTop: 10,
+        padding: 10,
+        backgroundColor: 'white',
+        // height: 130,
+        minHeight: 70,
+        maxHeight: 150,
+        justifyContent: 'center',
+        opacity: 0.5,
     },
     btnStyle: {
         flex: 1,

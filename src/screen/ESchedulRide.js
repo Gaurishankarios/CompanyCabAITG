@@ -20,6 +20,7 @@ const ESchedulRide = ({ navigation }) => {
     const [Reason, setReason] = useState()
     const [fromLoc, setfromLoc] = useState()
     const [toLoc, settoLoc] = useState()
+    const [isValideDate, setisValideDate] = useState()
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -29,6 +30,7 @@ const ESchedulRide = ({ navigation }) => {
     const [count, setCount] = React.useState(alldate);
     const [timecall, settimecall] = React.useState();
     const [datecall, setdatecall] = React.useState();
+    
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -60,10 +62,21 @@ const ESchedulRide = ({ navigation }) => {
         setCount(count => currentDate)
         settimecall(timecall => timepass)
         setdatecall(datecall => sdate)
+
+        let compdate = new Date()
+        if (dt.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' }) >= compdate.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: '2-digit' })) {
+            setisValideDate(isValideDate => true)
+            console.log("selected date greater or equal to today");
+        } else {
+            setisValideDate(isValideDate => false)
+            console.log("selected date less than to today");
+        }
+
     };
 
     let data = [{ value: 'Pick-up', }, { value: 'Drop', }];
-    let dataReason = [{ value: 'Emergency', }, { value: 'Official', }];
+    // let dataReason = [{ value: 'Emergency', }, { value: 'Official', }];
+    let dataReason = [{ value: 'Medical Emergency', }, { value: 'Client request', }, {value: 'Weekly Schedule'}, {value: 'Other Offical/Misc. work'}];
 
     //Time  picker 
 
@@ -80,7 +93,10 @@ const ESchedulRide = ({ navigation }) => {
         if (fromLoc == undefined || toLoc == undefined || timecall == undefined || rideType < 1 || Reason == undefined) {
             console.log("Do not call");
             alert('Select Date and time and fill all field')
-        } else {
+        }else if(isValideDate==false){
+            alert("Please select valid date")
+        } 
+        else {
 
             const headers = {
                 'Content-Type': 'application/json',

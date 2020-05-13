@@ -26,7 +26,7 @@ const ForgetPassword = ({ navigation }) => {
             </View>
             <Spacer>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Text h4 h4Style={styles.setColorBlue}>Forget Password</Text>
+                    <Text h4 h4Style={styles.setColorBlue}>Forgot Password</Text>
                 </View>
             </Spacer>
             <Spacer>

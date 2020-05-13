@@ -181,10 +181,10 @@ const EmpUrRide = () => {
                                             <Text style={styles.textnamestyle}>Time:- </Text>
                                             <Text style={styles.textnamestyle1}>{item.rideTime}</Text>
                                         </View>
-                                        {/* <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                                            <Text style={styles.textnamestyle}>Status:</Text>
-                                            <Text style={styles.textnamestyle1}>{item.status}</Text>
-                                        </View> */}
+                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                            <Text style={styles.textnamestyle}>Logsheet No:</Text>
+                                            <Text style={styles.textnamestyle1}>xxxx</Text>
+                                        </View>
                                     </View>
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
