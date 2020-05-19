@@ -10,7 +10,7 @@ let checkwhichride = 0;
 
 const DriverUrRide = () => {
     let tokedId = 0;
-    
+
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isAllButtonVisible, setisAllButtonVisible] = useState(false);
@@ -21,6 +21,9 @@ const DriverUrRide = () => {
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
+    date = date < 10 ? '0' + date : '' + date
+    // var month = dt.getMonth() + 1;
+    month = month < 10 ? '0' + month : '' + month
     var year = new Date().getFullYear();
     const alldate = month + '/' + date + '/' + year;
     const [count, setCount] = React.useState(alldate);
@@ -63,7 +66,11 @@ const DriverUrRide = () => {
 
         var dt = new Date(date)
         var date = dt.getDate();
+        date = date < 10 ? '0' + date : '' + date
+
         var month = dt.getMonth() + 1;
+        month = month < 10 ? '0' + month : '' + month
+        // var month = dt.getMonth() + 1;
         var year = dt.getFullYear();
         // var hour = dt.getHours()
         // var min = dt.getMinutes()
@@ -94,7 +101,7 @@ const DriverUrRide = () => {
     const pickupCall = async (typrid) => {
         tokedId = await AsyncStorage.getItem('token');
         console.log('token is ', tokedId);
-        
+
         checkwhichride = typrid;
 
         console.log("type id is :-", typrid);
@@ -247,7 +254,7 @@ const styles = StyleSheet.create({
         // maxWidth: '50%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
 
     },
     btnstylebtn: {
@@ -329,5 +336,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 });
+
+DriverUrRide.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
 
 export default DriverUrRide;

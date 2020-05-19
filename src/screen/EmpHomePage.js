@@ -132,4 +132,12 @@ const styles = StyleSheet.create({
     }
 });
 
+EmpHomePage.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
+
 export default EmpHomePage;

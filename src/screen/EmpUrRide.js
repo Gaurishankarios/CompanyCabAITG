@@ -4,8 +4,11 @@ import { Text, Input, Button } from 'react-native-elements'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import axios from 'axios'
 import { navigate } from '../navigationRef'
+import { NavigationEvents } from 'react-navigation';
 
 let rideTypePD = 0;
+let checkwhichride = 0;
+
 const EmpUrRide = () => {
     let tokedId = 0;
 
@@ -18,12 +21,16 @@ const EmpUrRide = () => {
 
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
+    date = date < 10 ? '0' + date : '' + date
+    // var month = dt.getMonth() + 1;
+    month = month < 10 ? '0' + month : '' + month
+
     var year = new Date().getFullYear();
     const alldate = month + '/' + date + '/' + year;
     const [count, setCount] = React.useState(alldate);
 
 
-    
+
     // let listn = [
     //     {
     //         Date: "15-12-2020",
@@ -59,7 +66,11 @@ const EmpUrRide = () => {
 
         var dt = new Date(date)
         var date = dt.getDate();
+        date = date < 10 ? '0' + date : '' + date
+
         var month = dt.getMonth() + 1;
+        month = month < 10 ? '0' + month : '' + month
+        // var month = dt.getMonth() + 1;
         var year = dt.getFullYear();
         // var hour = dt.getHours()
         // var min = dt.getMinutes()
@@ -95,6 +106,7 @@ const EmpUrRide = () => {
         tokedId = await AsyncStorage.getItem('token');
         console.log('token is ', tokedId);
 
+        checkwhichride = typrid;
 
         console.log("type id is :-", typrid);
         rideTypePD = typrid;
@@ -145,6 +157,9 @@ const EmpUrRide = () => {
                     onCancel={hideDatePicker}
 
                 />
+
+                <NavigationEvents onDidFocus={() => pickupCall(checkwhichride)} />
+
                 <View style={styles.btnstylebtn}>
                     <Button title='Pick-up' buttonStyle={{ backgroundColor: isPick }} onPress={() => pickupCall(1)}
                     />
@@ -206,12 +221,12 @@ const EmpUrRide = () => {
                                         <View style={styles.buttonContainerDrop}>
                                             {/* <Text style={styles.textnamestyle1}>{item.dropTime}</Text> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            {isAllButtonVisible ? null : <Button title='Call' icon={{ name: 'call', color: 'white' }} onPress={() => dialCall(item.mobileNumber)} 
-                                            disabled={(item.status == "Completed") ? true : false} /> }
+                                            {isAllButtonVisible ? null : <Button title='Call' icon={{ name: 'call', color: 'white' }} onPress={() => dialCall(item.mobileNumber)}
+                                                disabled={(item.status == "Completed") ? true : false} />}
                                             {/* </View> */}
                                             {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
-                                            {isAllButtonVisible ? null : <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }} onPress={ () => { navigate('PCancle', [item.driverAssignedId, count, "fromE",rideTypePD,item.rideId])}}
-                                              disabled={(item.status == "Completed") ? true : false} />}
+                                            {isAllButtonVisible ? null : <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }} onPress={() => { navigate('PCancle', [item.driverAssignedId, count, "fromE", rideTypePD, item.rideId]) }}
+                                                disabled={(item.status == "Completed") ? true : false} />}
                                             {/* </View> */}
                                             {/* <Button title='  Done  ' //disabled={isAllButtonVisible} //onPress={() => dropEmp(item.empAssignedId)}
                                             /> */}
@@ -335,5 +350,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 });
+
+EmpUrRide.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
 
 export default EmpUrRide;

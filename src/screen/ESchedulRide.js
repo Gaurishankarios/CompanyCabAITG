@@ -46,7 +46,11 @@ const ESchedulRide = ({ navigation }) => {
 
         var dt = new Date(date)
         var date = dt.getDate();
+        date = date < 10 ? '0' + date : '' + date
+
         var month = dt.getMonth() + 1;
+        month = month < 10 ? '0' + month : '' + month
+
         var year = dt.getFullYear();
 
         let sdate = month + '/' + date + '/' + year;
@@ -260,5 +264,13 @@ const styles = StyleSheet.create({
     },
 
 });
+
+ESchedulRide.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
 
 export default ESchedulRide;

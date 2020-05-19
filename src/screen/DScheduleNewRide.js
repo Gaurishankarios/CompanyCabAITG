@@ -44,7 +44,12 @@ const DScheduleNewRide = ({navigation}) => {
 
         var dt = new Date(date)
         var date = dt.getDate();
+        date = date < 10 ? '0' + date : '' + date
+
         var month = dt.getMonth() + 1;
+        month = month < 10 ? '0' + month : '' + month
+
+        // var month = dt.getMonth() + 1;
         var year = dt.getFullYear();
 
         let sdate= month + '/' + date + '/' + year;
@@ -96,11 +101,13 @@ const DScheduleNewRide = ({navigation}) => {
             'Accept': 'application/json'
         }
 
-        if(fromLoc==undefined || fromLoc=="" || toLoc==undefined || toLoc=="" || timecall==undefined || timecall=="" || rideType<1 || Reason==undefined || Reason=="" ){
+        if(fromLoc==undefined || fromLoc=="" || toLoc==undefined || toLoc=="" || rideType<1 || Reason==undefined || Reason=="" ){
             console.log("Do not call");
-            alert('Select Date and time and fill all field')
+            alert('Fill all the fields')
+        }else if(timecall==undefined || timecall=="" ){
+            alert('Select Date and Time')
         }
-        else if(isValideDate==false){
+        else if(isValideDate==false ){
             alert("Please select valid date")
         }
         else{
@@ -253,5 +260,14 @@ const styles = StyleSheet.create({
     },
 
 });
+
+
+DScheduleNewRide.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
 
 export default DScheduleNewRide;

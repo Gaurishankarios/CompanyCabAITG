@@ -47,10 +47,14 @@ const ListofPD = ({ navigation }) => {
     const [isPick, setisPick] = useState("#03106E");
     const [isDrop, setisDrop] = useState("#03106E");
 
-    
+
 
     var date = new Date().getDate();
+    date = date < 10 ? '0' + date : '' + date
+
     var month = new Date().getMonth() + 1;
+    month = month < 10 ? '0' + month : '' + month
+    // var month = new Date().getMonth() + 1;
     var year = new Date().getFullYear();
     const alldate = month + '/' + date + '/' + year;
     // const alldate = new Date().toLocaleDateString()
@@ -97,12 +101,16 @@ const ListofPD = ({ navigation }) => {
 
         setlistn(listn => []);
         setdriven(driven => []);
-        // this.state.seteditDate = date
-
+        // this.state.seteditDate = date 
         // currentDate = date.toLocaleDateString();
         var dt = new Date(date)
         var date = dt.getDate();
+        date = date < 10 ? '0' + date : '' + date
+
         var month = dt.getMonth() + 1;
+        month = month < 10 ? '0' + month : '' + month
+
+        // var month = dt.getMonth() + 1;
         var year = dt.getFullYear();
         currentDate = month + '/' + date + '/' + year;
 
@@ -167,7 +175,7 @@ const ListofPD = ({ navigation }) => {
         if (coderespo == true) {
             setlistn(listn => []);
             setdriven(driven => []);
-            
+
             setisFetching(isFetching => false);
             alert("Reached at location");
             RestCall(setlistn, count, setdriven, setinsidnt, setisFetching);
@@ -331,7 +339,7 @@ const ListofPD = ({ navigation }) => {
 
 
                     {/* <NavigationEvents onDidFocus={() => refreshdata==0 ? pickupCall() : null} /> */}
-                    <NavigationEvents onDidFocus={() =>  pickupCall()} />
+                    <NavigationEvents onDidFocus={() => pickupCall()} />
                     <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -395,9 +403,9 @@ const ListofPD = ({ navigation }) => {
                                         <Text style={styles.textnamestyle1}>{item.pickTime}</Text>
                                     </View>
 
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }}>
-                                        <Text style={styles.textnamestyle}> Logsheet Number </Text>
-                                        <Text style={styles.textnamestyle1}> xxxx </Text>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 10 }}>
+                                        <Text style={styles.textnamestyle}> Ride-id </Text>
+                                        <Text style={styles.textnamestyle1}> {item.logSheetNo} </Text>
                                     </View>
 
                                     {/* - {item.pickLocationName} */}
@@ -493,14 +501,21 @@ const ListofPD = ({ navigation }) => {
                                         <Text style={styles.textnamestyle}>{item.dropLocationName}</Text>
                                     </View>
 
-                                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 10 }}>
-                                        <Text style={styles.textnamestyle}> Logsheet Number </Text>
-                                        <Text style={styles.textnamestyle1}> xxxx </Text>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 10 }}>
+                                            <Text style={styles.textnamestyle}> Ride-id </Text>
+                                            <Text style={styles.textnamestyle1}> {item.logSheetNo} </Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 10 }}>
+                                            <Text style={styles.textnamestyle}> Time:- </Text>
+                                            <Text style={styles.textnamestyle1}> {item.dropTime} </Text>
+                                        </View>
                                     </View>
 
                                     <View style={styles.btnStyle}>
                                         <View style={styles.buttonContainerDrop}>
-                                            <Text style={styles.textnamestyle1}>{item.dropTime}</Text>
+                                            {/* <Text style={styles.textnamestyle1}>Time:-{item.dropTime}</Text> */}
+
                                             <View style={{ marginRight: 10, marginLeft: 20 }}>
                                                 {/* <Button title='' icon={{ name: 'call', color: 'white' }} disabled={isAllButtonVisible} onPress={() => dialCall(item.mobileNumber)} /> */}
                                                 {isAllButtonVisible ? null : <Button title='' icon={{ name: 'call', color: 'white' }} disabled={(item.status == "Completed") ? true : false} onPress={() => dialCall(item.mobileNumber)} />}

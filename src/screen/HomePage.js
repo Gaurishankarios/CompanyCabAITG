@@ -37,6 +37,8 @@ const transportcardPress = async({navigation}) => {
         navigate('DriverHome') // Role
     }else if(roleName=='ROLE_EMPLOYEE'){
         navigate('HomeEmployee')
+    }else if(roleName=='ROLE_ADMIN'){
+        navigate('Role')
     }
     
 

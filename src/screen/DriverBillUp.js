@@ -27,8 +27,7 @@ const DriverBillUp = ({ navigation }) => {
 
         if (ridePrice == '' || singleFile.name == ([] || "File not uploaded")) { //|| singleFile.name == ('' || "File not uploaded")
             alert("Select file and fill ride price")
-        } else 
-        {
+        } else {
 
             let data = new FormData()
 
@@ -64,7 +63,16 @@ const DriverBillUp = ({ navigation }) => {
             console.log("coderespo is ", coderespo);
 
             if (coderespo == 200) {
-                alert("Bill uploaded");
+                // alert("Bill uploaded");
+                Alert.alert(
+                    'Bill uploaded',
+                    '',
+                    [
+                        { text: 'Ok', onPress: () => navigation.pop(), style: 'cancel' },
+                    ],
+                    { cancelable: false }
+                )
+
             } else {
                 alert("Please try again")
             }
@@ -128,28 +136,6 @@ const DriverBillUp = ({ navigation }) => {
     return (
         <View style={styles.container}>
 
-            <TouchableOpacity
-                activeOpacity={0.5}
-                style={styles.buttonStyle}
-                onPress={selectOneFile.bind(this)}>
-                {/*Single file selection button*/}
-                <Text style={{ marginRight: 10, fontSize: 19 }}>
-                    Click here to pick one file
-          </Text>
-                <Image
-                    source={{
-                        uri: 'https://img.icons8.com/offices/40/000000/attach.png',
-                    }}
-                    style={styles.imageIconStyle}
-                />
-            </TouchableOpacity>
-            {/*Showing the data of selected Single file*/}
-            <Text style={styles.textStyle}>
-                File Name:{' '}
-                {singleFile ? singleFile.name : 'File not uploaded'}
-            </Text>
-
-
             <Spacer>
                 <Input label="Enter Amount" //value={empId}
                     onChangeText={setridePrice}
@@ -160,19 +146,50 @@ const DriverBillUp = ({ navigation }) => {
                     maxLength={7}
                 />
             </Spacer>
-            <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                {/* <Spacer> */}
+
+            <TouchableOpacity
+                activeOpacity={0.5}
+                style={styles.buttonStyle}
+                onPress={selectOneFile.bind(this)}>
+                {/*Single file selection button*/}
+                <Text style={{ marginRight: 10, fontSize: 19 }}>
+                    Click here to pick file
+          </Text>
+                {/* <Image
+                    source={{
+                        uri: 'https://img.icons8.com/offices/40/000000/attach.png',
+                    }}
+                    style={styles.imageIconStyle}
+                /> */}
+                <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+                <Image
+                    style={{
+                        width: 80, height: 80, alignItems: 'center', //alignSelf: 'stretch', 
+                    }}
+                    source={require('../assets/upload.png')}
+                />
+            </View>
+            </TouchableOpacity>
+            {/*Showing the data of selected Single file*/}
+            <Text style={styles.textStyle}>
+                File Name:{' '}
+                {singleFile ? singleFile.name : 'File not uploaded'}
+            </Text>
+
+
+
+            {/* <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                 <Image
                     style={{
                         width: 150, height: 150, alignItems: 'center', //alignSelf: 'stretch', 
                     }}
                     source={require('../assets/upload.png')}
                 />
-                {/* </Spacer> */}
-            </View>
+            </View> */}
 
             <Spacer>
-                <Button title="Select file to upload" onPress={() => billUploadPress(singleFile)} />
+                <Button title="Upload Bill" onPress={() => billUploadPress(singleFile)} 
+                buttonStyle={{ backgroundColor: '#03106E' }}/>
             </Spacer>
         </View>
     )
@@ -190,9 +207,9 @@ const styles = StyleSheet.create({
         color: '#03106E'
     },
     textStyle: {
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         fontSize: 15,
-        marginTop: 16,
+        margin: 15,
         color: 'black',
     },
 
@@ -201,6 +218,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: '#DDDDDD',
         padding: 5,
+        margin: 15,
+        justifyContent: 'center'
     },
     imageIconStyle: {
         height: 20,
@@ -209,5 +228,14 @@ const styles = StyleSheet.create({
     },
 
 });
+
+DriverBillUp.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
+
 
 export default DriverBillUp;

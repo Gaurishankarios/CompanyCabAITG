@@ -24,21 +24,26 @@ import DriverBillUp from './src/screen/DriverBillUp'
 import EmpHomePage from './src/screen/EmpHomePage'
 import ESchedulRide from './src/screen/ESchedulRide'
 import EmpUrRide from './src/screen/EmpUrRide'
+import CheckLogin from './src/screen/CheckLogin'
+import AdassignDriver from './src/screen/AdassignDriver'
+import AdPendingList from './src/screen/AdPendingList'
 
 
 const switchNavigator = createSwitchNavigator({
+  Check: CheckLogin,
   loginFlow: createStackNavigator({
+    
     Signin: SignupScreen,
     // Signin: SigninScreen,
     Forget: ForgetPassword,
-    NewPass: SetNewPass,
+    NewPass: SetNewPass, 
     
 
   }),
-  mainFlow: createBottomTabNavigator({
+  mainFlow: createBottomTabNavigator({ 
+    // HOME: HomePage,
       HOME: createStackNavigator({
         Home: HomePage,
-
         Role: RollScreen,
         Ddetail: DriverDetail,
         Pdlist: ListofPD,
@@ -52,6 +57,8 @@ const switchNavigator = createSwitchNavigator({
         HomeEmployee: EmpHomePage,
         EmpSchedule: ESchedulRide,
         Rides: EmpUrRide,
+        Assign: AdassignDriver,
+        Pending: AdPendingList,
 
         // navigationOptions: {
           // tabBarLabel: 'Track', 
@@ -59,12 +66,22 @@ const switchNavigator = createSwitchNavigator({
           //     <Ionicons name="ios-home" color={tintColor} size={20} />
           // )
       // }
-
+      // HOME: HomePage,
       }),
 
     // Home: HomePage,
-    PROFILE: ProfilePage,
+    PROFILE: createStackNavigator({
+      Profile:ProfilePage,
+    }),
+
+    
   }),
+  // navigationOptions: ({ navigation }) => ({
+  //   onPress: (scene, jumpToIndex) => {
+  //   console.log('onPress:', scene.route);
+  //   jumpToIndex(scene.index);
+  //   },
+  //   }),
  
 });
 

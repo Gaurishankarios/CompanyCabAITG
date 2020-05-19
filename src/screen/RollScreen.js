@@ -95,7 +95,21 @@ const RollScreen = ({ navigation }) => {
                     onPress={() => { navigate('DriverHome') }}  //Pdlist
                 />
 
-                
+                <CardViewWithImage
+                    // width={(200}
+                    source={require('../assets/admin.png')}
+                    // content={'Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut distinctio!'}
+                    title={'Admin'}
+                    // imageWidth={80}
+                    // imageHeight={100}
+                    roundedImage={false}
+                    style={miniCardStyle}
+                    width={(Dimensions.get("window").width / 2) - 20}
+                    onPress={() => { navigate('Pending') }}  //Pdlist
+                />
+
+
+
 
 
             </View>

@@ -154,4 +154,12 @@ const styles = StyleSheet.create({
     }
 });
 
+DriverHomePage.navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    console.log("i am inside navigation", params)
+    return {
+        title: null,
+    }
+};
+
 export default DriverHomePage;
