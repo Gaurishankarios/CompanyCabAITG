@@ -170,7 +170,7 @@ const DriverUrRide = () => {
             </View>
 
             <View>
-                <FlatList style={{ marginBottom: 130 }}
+                <FlatList style={{ marginBottom: 140 }}
                     data={newList}
                     renderItem={({ item }) => {
                         return (

@@ -79,10 +79,10 @@ showalert = async (email, setisFetching) => {
 
         console.log(response.data);
         if (tmpstatus == true) {
-            setisFetching(isFetching => false);
+            setisFetching(isFetching => false);//Mail sent Successfully please check
             Alert.alert(
-                'Mailed successfully',
-                'Check your mail',
+                'E-mail sent successfully',
+                '',
                 [
                     { text: 'Reset Password', onPress: () => { navigate('NewPass') } },
                     { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
@@ -92,8 +92,8 @@ showalert = async (email, setisFetching) => {
         } else {
             setisFetching(isFetching => false);
             Alert.alert(
-                'Failure',
-                'Email doesn\'t exist',
+                'Invalid credentials',
+                '',
                 [
                     { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
                 ],

@@ -29,14 +29,21 @@ const AdPendingList = ({ navigation }) => {
             // })
     }
 
-    const rideAprove = async(tmp) => {
+    const rideAprove = async(tmp, btnpress) => {
         const headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        const param = { vehicleId: 1, driverId: 14, status: "Approved", rideId: tmp }
+
+        let param;
+        if(btnpress==1){
+             param = { vehicleId: 1, driverId: 14, status: "Approved", rideId: tmp } //Rejected
+        } else if(btnpress==0){
+             param = { vehicleId: 1, driverId: 14, status: "Rejected", rideId: tmp } //Rejected
+        }
+        
         // const param = { rideId: dropid }
-        console.log("dropid is ", tmp)
+        console.log("param is  is ", param)
         const response = await axios.post('http://ait-taxitransport.aitglobalindia.com:8080/AITTransportModule/admin/manipulate',
             param,
             headers)
@@ -108,13 +115,13 @@ const AdPendingList = ({ navigation }) => {
                                     {/* <Text style={styles.textnamestyle1}>{item.dropTime}</Text> */}
                                     {/* <View style={{ marginRight: 10, marginLeft: 20 }}> */}
                                     { <Button title='Approve' //icon={{ name: 'call', color: 'white' }}
-                                     onPress={() => rideAprove(item.rideId)}
+                                     onPress={() => rideAprove(item.rideId, 1)}
                                         //disabled={(item.status == "Completed") ? true : false} 
                                         />}
                                     
-                                    {/* { <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }} //onPress={() => { navigate('PCancle', [item.driverAssignedId, count, "fromE", rideTypePD, item.rideId]) }}
-                                        disabled={(item.status == "Completed") ? true : false} />} */}
-                                    
+                                    { <Button title='Cancel' icon={{ name: 'cancel', color: 'white' }}  onPress={() => rideAprove(item.rideId, 0)}
+                                        />}
+
 
 
                                 </View>

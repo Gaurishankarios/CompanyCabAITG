@@ -171,7 +171,7 @@ const EmpUrRide = () => {
             </View>
 
             <View>
-                <FlatList style={{ marginBottom: 130 }}
+                <FlatList style={{ marginBottom: 140 }}
                     data={newList}
                     renderItem={({ item }) => {
                         return (
@@ -182,7 +182,7 @@ const EmpUrRide = () => {
                                 <View >
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                                            <Text style={styles.textnamestyle}>Status:- </Text>
+                                            <Text style={styles.textnamestyle}>Status:</Text>
                                             <Text style={styles.textnamestyle1}>{item.status}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
@@ -197,8 +197,8 @@ const EmpUrRide = () => {
                                             <Text style={styles.textnamestyle1}>{item.rideTime}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                                            <Text style={styles.textnamestyle}>Logsheet No:</Text>
-                                            <Text style={styles.textnamestyle1}>xxxx</Text>
+                                            <Text style={styles.textnamestyle}>Ride ID:</Text>
+                                            <Text style={styles.textnamestyle1}>{item.logSheetNo}</Text>
                                         </View>
                                     </View>
 
@@ -249,7 +249,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 50,
         margin: 10,
-
         // width: 200,
         // margin: 2,
         // justifyContent: 'space-evenly',
@@ -279,7 +278,7 @@ const styles = StyleSheet.create({
         minWidth: '25%'
     },
     touchView: {
-        margin: 3,
+        margin: 5,
         marginHorizontal: 10,
         // marginTop: 10,
         padding: 10,
@@ -291,7 +290,7 @@ const styles = StyleSheet.create({
         opacity: 1,
     },
     touchViewD: {
-        margin: 3,
+        margin: 5,
         marginHorizontal: 10,
         // marginTop: 10,
         padding: 10,
@@ -340,7 +339,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "bold",
         color: '#FF8001',
-        padding: 2,
+        padding: 1,
         alignItems: 'flex-end'
     },
     container: {

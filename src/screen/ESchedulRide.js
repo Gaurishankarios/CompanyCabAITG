@@ -80,7 +80,7 @@ const ESchedulRide = ({ navigation }) => {
 
     let data = [{ value: 'Pick-up', }, { value: 'Drop', }];
     // let dataReason = [{ value: 'Emergency', }, { value: 'Official', }];
-    let dataReason = [{ value: 'Medical Emergency', }, { value: 'Client request', }, {value: 'Weekly Schedule'}, {value: 'Other Offical/Misc. work'}];
+    let dataReason = [{ value: 'Medical Emergency', }, { value: 'Client request', }, {value: 'Weekly Schedule'}, {value: 'Other Official/Misc. work'}];
 
     //Time  picker 
 
@@ -126,8 +126,8 @@ const ESchedulRide = ({ navigation }) => {
             if (coderespo == true) {
                 // setisFetching(isFetching => false);
                 Alert.alert(
-                    'Sent Request',
-                    'Sent request for aprroval',
+                    'Send Request',
+                    'Send request for approval',
                     [
                         { text: 'Ok', onPress: () => navigation.pop(), style: 'cancel' },
                     ],
@@ -229,7 +229,7 @@ const ESchedulRide = ({ navigation }) => {
                 />
             </View>
             <Spacer>
-                <Button title="Send For Approvel" buttonStyle={{ backgroundColor: '#03106E' }} onPress={selectNewRideCall}
+                <Button title="Send For Approval" buttonStyle={{ backgroundColor: '#03106E' }} onPress={selectNewRideCall}
                     icon={{
                         name: 'done', color: 'white',
                         //type: 'MaterialCommunityIcons'  //airline-seat-recline-normal //baseline-departure-board-black

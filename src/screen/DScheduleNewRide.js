@@ -79,7 +79,7 @@ const DScheduleNewRide = ({navigation}) => {
     };
 
     let data = [{ value: 'Pick-up', }, { value: 'Drop', }];
-    let dataReason = [{ value: 'Medical Emergency', }, { value: 'Client request', }, {value: 'Weekly Schedule'}, {value: 'Other Offical/Misc. work'}];
+    let dataReason = [{ value: 'Medical Emergency', }, { value: 'Client request', }, {value: 'Weekly Schedule'}, {value: 'Other Official/Misc. work'}];
 
     //Time  picker
     //  Medical Emergency 
@@ -225,7 +225,7 @@ const DScheduleNewRide = ({navigation}) => {
                 />
             </View>
             <Spacer>
-                <Button title="Send For Approvel" buttonStyle={{ backgroundColor: '#03106E' }} onPress={selectNewRideCall}
+                <Button title="Send For Approval" buttonStyle={{ backgroundColor: '#03106E' }} onPress={selectNewRideCall}
                     icon={{
                         name: 'done', color: 'white',
                         //type: 'MaterialCommunityIcons'  //airline-seat-recline-normal //baseline-departure-board-black

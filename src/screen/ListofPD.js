@@ -404,7 +404,7 @@ const ListofPD = ({ navigation }) => {
                                     </View>
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 10 }}>
-                                        <Text style={styles.textnamestyle}> Ride-id </Text>
+                                        <Text style={styles.textnamestyle}> Ride ID </Text>
                                         <Text style={styles.textnamestyle1}> {item.logSheetNo} </Text>
                                     </View>
 
@@ -503,7 +503,7 @@ const ListofPD = ({ navigation }) => {
 
                                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 10 }}>
-                                            <Text style={styles.textnamestyle}> Ride-id </Text>
+                                            <Text style={styles.textnamestyle}> Ride id </Text>
                                             <Text style={styles.textnamestyle1}> {item.logSheetNo} </Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginVertical: 10 }}>

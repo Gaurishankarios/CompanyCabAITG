@@ -75,7 +75,7 @@ class ReachLate extends Component {
         //Driver arrived late
         // Stuck in Traffic
         // Vehicle break-down
-        let dataReason = [{ value: 'Driver arrived late', }, { value: 'Stuck in Traffic', }, { value: 'Vehicle break-down' }];
+        let dataReason = [{ value: 'Driver arrived late', }, { value: 'Stuck in Traffic', }, { value: 'Vehicle breakdown' }];
         this.setState({ nameList: dataReason });
 
         const { navigate } = this.props.navigation;
