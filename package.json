@@ -28,7 +28,7 @@
     "react-native-material-dropdown": "^0.11.1",
     "react-native-modal-datetime-picker": "^8.5.1",
     "react-native-passmeter": "0.0.5",
-    "react-native-reanimated": "^1.7.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^1.0.0-alpha.23",
     "react-native-simple-card-view": "^0.3.0",
